@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>AURAK CampusNav</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🗺️ AURAK CampusNav</h1>
+            <p>Find faculty members and their locations on campus</p>
+        </header>
+
+        <!-- Search -->
+        <div class="search-card">
+            <input type="text" 
+                   id="searchInput" 
+                   placeholder="Search by name, office, or building..."
+                   autocomplete="off">
+        </div>
+
+        <!-- Map and Results -->
+        <div class="main-grid">
+            <!-- Map Column -->
+            <div class="map-card">
+                <h2>📍 Campus Map</h2>
+                <div class="map-wrapper" id="mapWrapper">
+                    <img id="campusMap" src="../campus.png" alt="Campus Map">
+                    <div id="popup" class="building-popup">
+                        <div class="popup-content">
+                            <div class="popup-building" id="popupBuilding"></div>
+                            <div class="popup-details" id="popupDetails"></div>
+                        </div>
+                        <div class="popup-arrow"></div>
+                    </div>
+                    <div id="highlightLayer" class="overlay"></div>
+                </div>
+                <p class="map-note">Click a faculty card to locate their building</p>
+            </div>
+
+            <!-- Results Column -->
+            <div class="results-card">
+                <h2>👥 Faculty Directory</h2>
+                <div id="results" class="results-list">
+                    <p class="empty-state">Type a name to search...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
