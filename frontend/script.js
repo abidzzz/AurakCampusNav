@@ -1,5 +1,5 @@
 // API URL
-const API_URL = 'http://localhost:8000';
+const API_URL = 'https://aurak-campus-api.onrender.com';
 
 // Building polygons
 const buildingPolygons = {
