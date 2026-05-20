@@ -47,6 +47,7 @@ document.addEventListener('keydown', (e) => {
 
 let activeHighlights = {}; // Store active highlights per building
 let activeLabels = {};
+let savedHighlightData = {}; // Persists facultyName/office/room across redraws
 
 const img = document.getElementById('campusMap');
 let scaleX = 1, scaleY = 1;
@@ -82,7 +83,6 @@ function getPolygonTop(points) {
 function drawPolygon(points, buildingCode, roomNumber = null, facultyName = null, office = null) {
     const colors = buildingColors[buildingCode];
     
-    // Remove existing highlight for this building if any
     if (activeHighlights[buildingCode]) {
         activeHighlights[buildingCode].remove();
         delete activeHighlights[buildingCode];
@@ -92,7 +92,8 @@ function drawPolygon(points, buildingCode, roomNumber = null, facultyName = null
         delete activeLabels[buildingCode];
     }
     
-    // Create container
+    savedHighlightData[buildingCode] = { roomNumber, facultyName, office };
+    
     const container = document.createElement('div');
     container.style.position = 'absolute';
     container.style.top = '0';
@@ -102,7 +103,6 @@ function drawPolygon(points, buildingCode, roomNumber = null, facultyName = null
     container.style.pointerEvents = 'none';
     container.style.zIndex = '999';
     
-    // Create SVG polygon
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.position = 'absolute';
     svg.style.top = '0';
@@ -111,12 +111,7 @@ function drawPolygon(points, buildingCode, roomNumber = null, facultyName = null
     svg.style.height = '100%';
     
     const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-    
-    const scaledPoints = points.map(p => ({
-        x: p.x * scaleX,
-        y: p.y * scaleY
-    }));
-    
+    const scaledPoints = points.map(p => ({ x: p.x * scaleX, y: p.y * scaleY }));
     polygon.setAttribute('points', scaledPoints.map(p => `${p.x},${p.y}`).join(' '));
     polygon.setAttribute('fill', colors.fill);
     polygon.setAttribute('stroke', colors.stroke);
@@ -125,11 +120,9 @@ function drawPolygon(points, buildingCode, roomNumber = null, facultyName = null
     svg.appendChild(polygon);
     container.appendChild(svg);
     
-    // Use HARDCODED position for label
     const labelX = colors.labelX * scaleX;
     const labelY = colors.labelY * scaleY;
     
-    // Create info box at hardcoded position
     const infoBox = document.createElement('div');
     infoBox.style.position = 'absolute';
     infoBox.style.left = `${labelX}px`;
@@ -137,40 +130,49 @@ function drawPolygon(points, buildingCode, roomNumber = null, facultyName = null
     infoBox.style.transform = 'translateX(-50%)';
     infoBox.style.backgroundColor = '#1e1e2e';
     infoBox.style.color = colors.text;
-    infoBox.style.padding = '12px 20px';
-    infoBox.style.borderRadius = '12px';
+    
+    // SCALING FIXES
+    const pad = Math.max(6, Math.round(12 * scaleX));
+    const padH = Math.max(10, Math.round(20 * scaleX));
+    infoBox.style.padding = `${pad}px ${padH}px`;
+    infoBox.style.borderRadius = '10px';
     infoBox.style.border = `2px solid ${colors.stroke}`;
     infoBox.style.zIndex = '1000';
     infoBox.style.fontFamily = 'sans-serif';
     infoBox.style.boxShadow = '0 4px 16px rgba(0,0,0,0.4)';
     infoBox.style.backdropFilter = 'blur(8px)';
-    infoBox.style.minWidth = '180px';
+    infoBox.style.minWidth = `${Math.max(100, Math.round(180 * scaleX))}px`;
+    infoBox.style.maxWidth = `${Math.round(220 * scaleX)}px`;
     infoBox.style.textAlign = 'center';
     
-    // Build content inside box
+    const fs1 = Math.max(11, Math.round(18 * scaleX));
+    const fs2 = Math.max(9,  Math.round(11 * scaleX));
+    const fs3 = Math.max(10, Math.round(14 * scaleX));
+    const fs4 = Math.max(9,  Math.round(13 * scaleX));
+    const fs5 = Math.max(9,  Math.round(12 * scaleX));
+    
     let shortName = buildingCode;
     let fullName = buildingNames[buildingCode];
-
-    let content = `<div style="font-size: 18px; font-weight: bold; margin-bottom: 4px;">Building ${shortName}</div>`;
-content += `<div style="font-size: 11px; color: ${colors.text}; opacity: 0.8; margin-bottom: 8px;">${fullName}</div>`;
+    
+    let content = `<div style="font-size: ${fs1}px; font-weight: bold; margin-bottom: 4px;">Building ${shortName}</div>`;
+    content += `<div style="font-size: ${fs2}px; color: ${colors.text}; opacity: 0.8; margin-bottom: 8px;">${fullName}</div>`;
     
     if (facultyName) {
-        content += `<div style="font-size: 14px; color: #e0e0e0; margin-bottom: 4px;">${facultyName}</div>`;
+        content += `<div style="font-size: ${fs3}px; color: #e0e0e0; margin-bottom: 4px;">${facultyName}</div>`;
     }
     
     if (office) {
-        content += `<div style="font-size: 13px; color: #a0a0a0;">${office}</div>`;
+        content += `<div style="font-size: ${fs4}px; color: #a0a0a0;">${office}</div>`;
     } else if (roomNumber) {
-        content += `<div style="font-size: 13px; color: #a0a0a0;">Room ${roomNumber}</div>`;
+        content += `<div style="font-size: ${fs4}px; color: #a0a0a0;">Room ${roomNumber}</div>`;
     }
     
     if (!facultyName && !office && !roomNumber) {
-        content += `<div style="font-size: 12px; color: #a0a0a0;">Click a faculty name</div>`;
+        content += `<div style="font-size: ${fs5}px; color: #a0a0a0;">Click a faculty name</div>`;
     }
     
     infoBox.innerHTML = content;
     
-    // Add small arrow pointing to building
     const arrow = document.createElement('div');
     arrow.style.position = 'absolute';
     arrow.style.bottom = '-8px';
@@ -210,6 +212,7 @@ function clearAllHighlights() {
     }
     activeHighlights = {};
     activeLabels = {};
+    savedHighlightData = {}
 }
 
 let isFirstSearch = true;
@@ -338,10 +341,6 @@ searchInput.addEventListener('input', (e) => {
     debounceTimer = setTimeout(() => searchFaculty(e.target.value), 300);
 });
 
-// Initialize
-img.onload = () => {
-    updateScale();
-};
 
 window.addEventListener('resize', () => {
     updateScale();
@@ -397,131 +396,122 @@ function getSuggestions(query, facultyList) {
 // Building tooltip on hover (border only, no fill)
 function addBuildingTooltips() {
     const mapWrapper = document.getElementById('mapWrapper');
-    
-    let tooltipTimeout = null;
-    
+
     // Create tooltip element
     const tooltip = document.createElement('div');
     tooltip.className = 'building-tooltip';
     mapWrapper.appendChild(tooltip);
-    
-    // Store hover overlay elements
-    if (!window.hoverOverlays) window.hoverOverlays = {};
-    
-    for (const [buildingCode, points] of Object.entries(buildingPolygons)) {
-        const center = getPolygonCenter(points);
-        const colors = buildingColors[buildingCode];
-        
-        // Create hover area
-        const hoverArea = document.createElement('div');
-        hoverArea.style.position = 'absolute';
-        hoverArea.style.left = `${(center.x - 40) * scaleX}px`;
-        hoverArea.style.top = `${(center.y - 40) * scaleY}px`;
-        hoverArea.style.width = '80px';
-        hoverArea.style.height = '80px';
-        hoverArea.style.cursor = 'pointer';
-        hoverArea.style.zIndex = '998';
-        hoverArea.style.background = 'transparent';
-        
-        // Create border-only overlay (hidden by default)
-        const borderOverlay = document.createElement('div');
-        borderOverlay.className = 'building-hover-border';
-        borderOverlay.style.position = 'absolute';
-        borderOverlay.style.top = '0';
-        borderOverlay.style.left = '0';
-        borderOverlay.style.width = '100%';
-        borderOverlay.style.height = '100%';
-        borderOverlay.style.pointerEvents = 'none';
-        borderOverlay.style.opacity = '0';
-        borderOverlay.style.transition = 'opacity 0.15s ease';
-        
-        // Create SVG for border only
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.style.position = 'absolute';
-        svg.style.top = '0';
-        svg.style.left = '0';
-        svg.style.width = '100%';
-        svg.style.height = '100%';
-        
-        const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-        
-        const scaledPoints = points.map(p => ({
-            x: p.x * scaleX,
-            y: p.y * scaleY
-        }));
-        
-        polygon.setAttribute('points', scaledPoints.map(p => `${p.x},${p.y}`).join(' '));
-        polygon.setAttribute('fill', 'transparent');
-        polygon.setAttribute('stroke', colors.stroke);
-        polygon.setAttribute('stroke-width', '3');
-        
-        svg.appendChild(polygon);
-        borderOverlay.appendChild(svg);
-        mapWrapper.appendChild(borderOverlay);
-        
-        // Store for resize updates
-        if (!window.hoverOverlays[buildingCode]) {
-            window.hoverOverlays[buildingCode] = { overlay: borderOverlay, points };
-        }
-        
-        // Hover events
-        hoverArea.addEventListener('mouseenter', () => {
-            if (tooltipTimeout) clearTimeout(tooltipTimeout);
-            
-            // Show border overlay
-            borderOverlay.style.opacity = '1';
-            
-            // Show tooltip
-            const rect = hoverArea.getBoundingClientRect();
-            const mapRect = mapWrapper.getBoundingClientRect();
-            let shortName = buildingCode;
-            let fullName = buildingNames[buildingCode];
 
-            tooltip.innerHTML = `<div style="font-size: 12px; font-weight: bold; margin-bottom: 4px;">Building ${shortName}</div><div style="font-size: 10px; color: ${colors.text}; opacity: 0.8; margin-bottom: 8px;">${fullName}</div>`
+    // Single SVG layer for all hit areas
+    const hitSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    hitSvg.style.position = 'absolute';
+    hitSvg.style.top = '0';
+    hitSvg.style.left = '0';
+    hitSvg.style.width = '100%';
+    hitSvg.style.height = '100%';
+    hitSvg.style.zIndex = '998';
+    mapWrapper.appendChild(hitSvg);
+    window._hitSvg = hitSvg;
+
+    // Track which building is currently hovered
+    let currentHoveredBuilding = null;
+    let hideTimeout = null;
+
+    for (const [buildingCode, points] of Object.entries(buildingPolygons)) {
+        const colors = buildingColors[buildingCode];
+        if (!colors) continue;
+
+        // Invisible hit polygon
+        const hitPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        hitPoly.setAttribute('fill', 'transparent');
+        hitPoly.setAttribute('stroke', 'none');
+        hitPoly.style.cursor = 'pointer';
+        hitPoly.style.pointerEvents = 'fill';
+        hitSvg.appendChild(hitPoly);
+
+        // Visible border polygon (shown on hover)
+        const borderSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        borderSvg.style.position = 'absolute';
+        borderSvg.style.top = '0';
+        borderSvg.style.left = '0';
+        borderSvg.style.width = '100%';
+        borderSvg.style.height = '100%';
+        borderSvg.style.pointerEvents = 'none';
+        borderSvg.style.opacity = '0';
+        borderSvg.style.transition = 'opacity 0.15s ease';
+        borderSvg.style.zIndex = '999';
+
+        const borderPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        borderPoly.setAttribute('fill', 'transparent');
+        borderPoly.setAttribute('stroke', colors.stroke);
+        borderPoly.setAttribute('stroke-width', '3');
+        borderSvg.appendChild(borderPoly);
+        mapWrapper.appendChild(borderSvg);
+
+        // Store refs for resize
+        if (!window.hoverOverlays) window.hoverOverlays = {};
+        window.hoverOverlays[buildingCode] = { hitPoly, borderPoly, borderSvg, points };
+
+        // Set initial scaled points
+        const scaledPoints = points.map(p => `${p.x * scaleX},${p.y * scaleY}`).join(' ');
+        hitPoly.setAttribute('points', scaledPoints);
+        borderPoly.setAttribute('points', scaledPoints);
+
+        hitPoly.addEventListener('mouseenter', () => {
+            // Clear any pending hide timeout
+            if (hideTimeout) clearTimeout(hideTimeout);
+            
+            // Check if this building is currently highlighted from search
+            if (activeHighlights[buildingCode]) {
+                return;
+            }
+            
+            // Hide previous building's border if different
+            if (currentHoveredBuilding && currentHoveredBuilding !== buildingCode) {
+                const prev = window.hoverOverlays[currentHoveredBuilding];
+                if (prev) prev.borderSvg.style.opacity = '0';
+            }
+            
+            // Show current building's border
+            currentHoveredBuilding = buildingCode;
+            borderSvg.style.opacity = '1';
+
+            const center = getPolygonCenter(points);
+            const cx = center.x * scaleX;
+            const cy = center.y * scaleY;
+
+            tooltip.innerHTML = `
+                <div style="font-size: 12px; font-weight: bold; margin-bottom: 4px;">Building ${buildingCode}</div>
+                <div style="font-size: 10px; color: ${colors.text}; opacity: 0.8;">${buildingNames[buildingCode]}</div>
+            `;
             tooltip.style.borderColor = colors.stroke;
-            tooltip.style.left = `${rect.left + rect.width/2 - mapRect.left}px`;
-            tooltip.style.top = `${rect.top - 30 - mapRect.top}px`;
+            tooltip.style.left = `${cx}px`;
+            tooltip.style.top = `${cy - 10}px`;
+            tooltip.style.transform = 'translate(-50%, -100%)';
             tooltip.classList.add('show');
         });
-        
-        hoverArea.addEventListener('mouseleave', () => {
-            // Hide border overlay
-            borderOverlay.style.opacity = '0';
-            
-            tooltipTimeout = setTimeout(() => {
-                tooltip.classList.remove('show');
-            }, 100);
+
+        hitPoly.addEventListener('mouseleave', () => {
+            // Don't hide immediately — wait to see if entering another building
+            hideTimeout = setTimeout(() => {
+                // Only hide if we're not hovering another building
+                if (currentHoveredBuilding === buildingCode) {
+                    borderSvg.style.opacity = '0';
+                    tooltip.classList.remove('show');
+                    currentHoveredBuilding = null;
+                }
+            }, 50); // Very short delay, just enough to detect next mouseenter
         });
-        
-        mapWrapper.appendChild(hoverArea);
-        
-        // Store for resize
-        if (!window.buildingHoverAreas) window.buildingHoverAreas = [];
-        window.buildingHoverAreas.push({ element: hoverArea, buildingCode, center, overlay: borderOverlay });
     }
 }
+
 function updateHoverAreas() {
-    if (!window.buildingHoverAreas) return;
+    if (!window.hoverOverlays) return;
     updateScale();
-    
-    for (const area of window.buildingHoverAreas) {
-        area.element.style.left = `${(area.center.x - 40) * scaleX}px`;
-        area.element.style.top = `${(area.center.y - 40) * scaleY}px`;
-        
-        // Update border overlay points
-        const overlay = area.overlay;
-        if (overlay && window.hoverOverlays[area.buildingCode]) {
-            const points = window.hoverOverlays[area.buildingCode].points;
-            const svg = overlay.querySelector('svg');
-            if (svg) {
-                const polygon = svg.querySelector('polygon');
-                const scaledPoints = points.map(p => ({
-                    x: p.x * scaleX,
-                    y: p.y * scaleY
-                }));
-                polygon.setAttribute('points', scaledPoints.map(p => `${p.x},${p.y}`).join(' '));
-            }
-        }
+    for (const [code, d] of Object.entries(window.hoverOverlays)) {
+        const scaled = d.points.map(p => `${p.x * scaleX},${p.y * scaleY}`).join(' ');
+        d.hitPoly.setAttribute('points', scaled);
+        d.borderPoly.setAttribute('points', scaled);
     }
 }
 
