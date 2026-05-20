@@ -62,13 +62,17 @@ function updateScale() {
 }
 
 function getPolygonCenter(points) {
+    if (!points || points.length === 0) {
+        console.warn('Invalid polygon points');
+        return { x: 0, y: 0 };
+    }
+    
     const sum = points.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }), { x: 0, y: 0 });
     return {
         x: sum.x / points.length,
         y: sum.y / points.length
     };
 }
-
 function getPolygonTop(points) {
     // Get the highest point (smallest Y) of the polygon
     const topPoint = points.reduce((top, p) => p.y < top.y ? p : top, points[0]);
@@ -208,6 +212,8 @@ function clearAllHighlights() {
     activeLabels = {};
 }
 
+let isFirstSearch = true;
+
 async function searchFaculty(query) {
     const resultsDiv = document.getElementById('results');
     
@@ -217,16 +223,26 @@ async function searchFaculty(query) {
         return;
     }
     
-    // Show loading spinner
-    resultsDiv.innerHTML = '<div class="loading-spinner">Searching faculty...</div>';
+    // Show appropriate loading message
+    if (isFirstSearch) {
+        resultsDiv.innerHTML = '<div class="loading-spinner">Waking up server (cold start)...</div><p style="text-align: center; font-size: 12px; color: #888; margin-top: 8px;">First request may take a few seconds</p>';
+    } else {
+        resultsDiv.innerHTML = '<div class="loading-spinner">Searching faculty...</div>';
+    }
     
     try {
+        const startTime = Date.now();
         const response = await fetch(`${API_URL}/search?q=${encodeURIComponent(query)}`);
         const data = await response.json();
         
+        // Cold start done after first successful response
+        if (isFirstSearch) {
+            const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+            console.log(`First request completed in ${elapsed} seconds`);
+            isFirstSearch = false;
+        }
+        
         if (!data.results || data.results.length === 0) {
-            // Get suggestions from all faculty (you'd need to fetch all or have cached)
-            // For now, show generic message with suggestions based on query
             const suggestions = ['Ali', 'Alnoman', 'Ahmed', 'Hassan', 'Fatima'];
             const matchingSuggestions = suggestions.filter(s => 
                 s.toLowerCase().includes(query.toLowerCase())
@@ -252,7 +268,6 @@ async function searchFaculty(query) {
             return;
         }
         
-        // Cache faculty list for suggestions (first time only)
         if (!window.allFaculty) {
             window.allFaculty = data.results;
         }
@@ -264,8 +279,6 @@ async function searchFaculty(query) {
             }
             
             const buildingColor = buildingColors[f.building]?.text || '#3b82f6';
-            
-            // Add animation delay for staggered fade-in
             const delay = index * 0.03;
             
             return `
@@ -279,10 +292,8 @@ async function searchFaculty(query) {
             `;
         }).join('');
         
-        // Clear old highlights before showing new one
         clearAllHighlights();
         
-        // Highlight the first result's building with animation
         if (data.results.length > 0 && data.results[0].building) {
             let roomNum = null;
             let office = data.results[0].office || '';
@@ -295,7 +306,17 @@ async function searchFaculty(query) {
         }
     } catch (error) {
         console.error('Search error:', error);
-        resultsDiv.innerHTML = '<p class="empty-state" style="color: #ef4444;">Error connecting to server. Make sure backend is running.</p>';
+        
+        // Check if it's a connection error (cold start or server down)
+        if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
+            resultsDiv.innerHTML = `
+                <div class="loading-spinner">Server is waking up...</div>
+                <p style="text-align: center; font-size: 12px; color: #f59e0b; margin-top: 8px;">Render's free tier sleeps after inactivity.</p>
+                <p style="text-align: center; font-size: 12px; color: #888;">Please wait a few seconds and try again.</p>
+            `;
+        } else {
+            resultsDiv.innerHTML = '<p class="empty-state" style="color: #ef4444;">Error connecting to server. Make sure backend is running.</p>';
+        }
         clearAllHighlights();
     }
 }
