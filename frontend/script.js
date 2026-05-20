@@ -45,6 +45,18 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Focus search with  /
+document.addEventListener('keydown', (e) => {
+    const searchInput = document.getElementById('searchInput');
+    
+    // Forward slash /
+    if (e.key === '/' && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+        searchInput.select();
+    }
+});
+
 let activeHighlights = {}; // Store active highlights per building
 let activeLabels = {};
 let savedHighlightData = {}; // Persists facultyName/office/room across redraws
@@ -197,7 +209,7 @@ function highlightBuilding(buildingCode, roomNumber = null, facultyName = null, 
     
     const points = buildingPolygons[buildingCode];
     if (!points) return;
-    
+    clearAllHighlights();
     updateScale();
     drawPolygon(points, buildingCode, roomNumber, facultyName, office);
     
