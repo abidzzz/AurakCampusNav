@@ -69,8 +69,8 @@ function escapeJs(str) {
 }
 function updateScale() {
     if (img.complete && img.naturalWidth) {
-        scaleX = img.clientWidth / img.naturalWidth;
-        scaleY = img.clientHeight / img.naturalHeight;
+        scaleX = img.getBoundingClientRect().width / img.naturalWidth;
+        scaleY = img.getBoundingClientRect().height / img.naturalHeight;
     }
 }
 
@@ -134,18 +134,19 @@ function drawPolygon(points, buildingCode, roomNumber = null, facultyName = null
     
     const labelX = colors.labelX * scaleX;
     const labelY = colors.labelY * scaleY;
-    
+    const minY = 10; // never closer than 10px to top
+    const clampedY = Math.max(minY, labelY);
     const infoBox = document.createElement('div');
     infoBox.style.position = 'absolute';
     infoBox.style.left = `${labelX}px`;
-    infoBox.style.top = `${labelY}px`;
+    infoBox.style.top = `${clampedY}px`;
     infoBox.style.transform = 'translateX(-50%)';
     infoBox.style.backgroundColor = '#1e1e2e';
     infoBox.style.color = colors.text;
     
     // SCALING FIXES
-    const pad = Math.max(6, Math.round(12 * scaleX));
-    const padH = Math.max(10, Math.round(20 * scaleX));
+    const pad = Math.max(3, Math.round(12 * scaleX));
+    const padH = Math.max(5, Math.round(20 * scaleX));
     infoBox.style.padding = `${pad}px ${padH}px`;
     infoBox.style.borderRadius = '10px';
     infoBox.style.border = `2px solid ${colors.stroke}`;
@@ -153,15 +154,15 @@ function drawPolygon(points, buildingCode, roomNumber = null, facultyName = null
     infoBox.style.fontFamily = 'sans-serif';
     infoBox.style.boxShadow = '0 4px 16px rgba(0,0,0,0.4)';
     infoBox.style.backdropFilter = 'blur(8px)';
-    infoBox.style.minWidth = `${Math.max(100, Math.round(180 * scaleX))}px`;
-    infoBox.style.maxWidth = `${Math.round(220 * scaleX)}px`;
+    infoBox.style.minWidth = `${Math.max(40, Math.round(180 * scaleX))}px`;
+    infoBox.style.maxWidth = `${Math.round(300  * scaleX)}px`;
     infoBox.style.textAlign = 'center';
     
-    const fs1 = Math.max(11, Math.round(18 * scaleX));
-    const fs2 = Math.max(9,  Math.round(11 * scaleX));
-    const fs3 = Math.max(10, Math.round(14 * scaleX));
-    const fs4 = Math.max(9,  Math.round(13 * scaleX));
-    const fs5 = Math.max(9,  Math.round(12 * scaleX));
+    const fs1 = Math.max(7,  Math.round(18 * scaleX));
+    const fs2 = Math.max(5,  Math.round(11 * scaleX));
+    const fs3 = Math.max(6,  Math.round(14 * scaleX));
+    const fs4 = Math.max(5,  Math.round(13 * scaleX));
+    const fs5 = Math.max(5,  Math.round(12 * scaleX));
     
     let shortName = buildingCode;
     let fullName = buildingNames[buildingCode];
