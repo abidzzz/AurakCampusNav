@@ -301,7 +301,7 @@ async function searchFaculty(query) {
                     <div class="result-name" style="color: ${buildingColor};">${escapeHtml(f.name || 'Unknown')}</div>
                     <div class="result-title">${escapeHtml(f.title || '')}</div>
                     ${f.office ? `<div class="result-office">Office: ${escapeHtml(f.office)}</div>` : ''}
-                    ${f.building ? `<div class="result-building">${escapeHtml(buildingNames[f.building] || f.building)}</div>` : ''}
+                    ${f.building ? `<div class="result-building">${escapeHtml((buildingNames[f.building] || f.building).replace(/<br>/g, ' '))}</div>` : ''}
                     ${f.profile_url ? `<a href="${escapeHtml(f.profile_url)}" target="_blank" class="result-profile" onclick="event.stopPropagation()">View Profile →</a>` : ''}
                 </div>
             `;
