@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>AURAK Campus Directory</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">
+      <img src="assets/AURAK-Logo.png" alt="AURAK" class="brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'">
+      <span class="mark">AURAK</span>
+      <span class="brand-text">Campus Directory</span>
+    </div>
+
+    <div class="searchwrap">
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/></svg>
+      <input id="search" type="text" placeholder="Search faculty, office, or building..." autocomplete="off">
+      <div class="kbd"><kbd>/</kbd></div>
+    </div>
+
+    <div class="filterwrap">
+      <button id="filterBtn">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4" stroke-width="2" stroke-linecap="round"/></svg>
+        Filter
+        <span id="filterCount"></span>
+      </button>
+      <div id="filterPanel">
+        <div class="fp-label">School</div>
+        <div class="chiprow" id="schoolChips"></div>
+        <div class="fp-label">Building</div>
+        <div class="chiprow" id="bldgChips"></div>
+      </div>
+    </div>
+
+    <div class="counter" id="counter"></div>
+  </header>
+
+  <div id="main">
+    <div id="mapPane">
+      <div id="mapStage">
+        <img id="mapImg" src="assets/AURAK_Campus.png" alt="AURAK campus map">
+        <svg id="overlay" viewBox="0 0 1000 708" preserveAspectRatio="none"></svg>
+        <div id="tooltip"></div>
+      </div>
+      <!-- infobox lives outside #mapStage (not as its child) so the mobile
+           "zoom in" transform:scale() on #mapStage doesn't also scale and
+           mis-position this popup -->
+      <div id="infobox"></div>
+      <div class="mapctl">
+        <div id="legendPanel"></div>
+        <button id="legendBtn" title="Map key">i</button>
+      </div>
+    </div>
+
+    <div id="panel">
+      <div id="panelHeader">
+        <span id="panelLabel">All faculty</span>
+      </div>
+      <div id="results"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="data/buildings.js"></script>
+<script src="data/faculty.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

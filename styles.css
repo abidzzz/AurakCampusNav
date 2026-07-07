@@ -1,0 +1,373 @@
+:root{
+  --bg:#0a0a0b;
+  --surface:#141416;
+  --surface-2:#1b1b1e;
+  --border:#26262a;
+  --text:#f2f2f0;
+  --muted:#93939b;
+  --muted-2:#68686f;
+  --red:#ac100f;
+  --red-dim:#2c0f0f;
+  --green:#33d17a;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0; font-family:var(--font); background:var(--bg); color:var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+#app{display:flex; flex-direction:column; height:100vh;}
+
+/* ---------- HEADER (single slim row) ---------- */
+header{
+  flex-shrink:0; border-bottom:1px solid var(--border); background:var(--surface);
+  padding:10px 16px; display:flex; align-items:center; gap:12px;
+}
+.brand{
+  font-size:14.5px; font-weight:650; letter-spacing:-.01em; white-space:nowrap;
+  display:flex; align-items:center; gap:8px;
+}
+.brand .mark{ color:var(--red); font-weight:750; }
+.brand-logo{ height:26px; width:auto; display:block; }
+.brand-text{ font-weight:650; }
+
+.searchwrap{position:relative; flex:1; max-width:420px;}
+.searchwrap svg.icon{
+  position:absolute; left:11px; top:50%; transform:translateY(-50%); width:14px; height:14px;
+  stroke:var(--muted); fill:none; pointer-events:none;
+}
+#search{
+  width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+  padding:8px 34px 8px 33px; border-radius:7px; font-size:13px; outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+#search::placeholder{color:var(--muted-2);}
+#search:focus{border-color:var(--red); box-shadow:0 0 0 3px var(--red-dim);}
+.kbd{position:absolute; right:8px; top:50%; transform:translateY(-50%);}
+.kbd kbd{
+  font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted);
+  background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:1.5px 5px;
+}
+
+/* filter button + popover */
+.filterwrap{position:relative;}
+#filterBtn{
+  display:flex; align-items:center; gap:6px; background:var(--surface-2); border:1px solid var(--border);
+  color:var(--muted); padding:8px 12px; border-radius:7px; font-size:12.5px; cursor:pointer; white-space:nowrap;
+}
+#filterBtn:hover{color:var(--text);}
+#filterBtn.active{color:var(--text); border-color:#3a3a40;}
+#filterBtn svg{width:13px; height:13px; stroke:currentColor; fill:none;}
+#filterCount{
+  display:none; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%;
+  background:var(--red); color:#fff; font-size:10px; font-weight:700;
+}
+#filterPanel{
+  position:absolute; top:calc(100% + 8px); right:0; background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; padding:14px; width:240px; box-shadow:0 12px 32px rgba(0,0,0,.5);
+  opacity:0; pointer-events:none; transform:translateY(-6px); transition:opacity .12s, transform .12s; z-index:40;
+}
+#filterPanel.open{opacity:1; pointer-events:auto; transform:translateY(0);}
+#filterPanel .fp-label{font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--muted-2); margin:0 0 7px;}
+#filterPanel .fp-label:not(:first-child){margin-top:14px;}
+
+.chiprow{display:flex; gap:6px; flex-wrap:wrap;}
+.chip{
+  font-size:12px; padding:5px 11px; border-radius:20px; background:var(--surface-2);
+  border:1px solid var(--border); color:var(--muted); cursor:pointer; white-space:nowrap;
+  transition:all .12s; user-select:none;
+}
+.chip:hover{color:var(--text); border-color:#3a3a40;}
+.chip.active{background:var(--red); border-color:var(--red); color:#fff; font-weight:600;}
+.chip .dot{display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:6px; vertical-align:middle;}
+
+.counter{font-size:11.5px; color:var(--muted-2); white-space:nowrap;}
+
+/* ---------- MAIN LAYOUT ---------- */
+#main{flex:1; display:flex; overflow:hidden; min-height:0;}
+#mapPane{flex:1; position:relative; overflow:auto; background:#000; min-width:0;}
+#mapStage{position:relative;}
+#mapStage img{display:block; width:100%; height:auto; user-select:none; -webkit-user-drag:none;}
+svg#overlay{position:absolute; top:0; left:0; width:100%; height:100%;}
+.bldg-poly{
+  fill:transparent; stroke:transparent; stroke-width:3; cursor:pointer;
+  transition:fill .15s, stroke .15s; vector-effect:non-scaling-stroke;
+}
+.bldg-poly.selected{stroke-width:4;}
+@keyframes bldgPop{
+  0%{ filter:drop-shadow(0 0 0 rgba(255,255,255,0)); }
+  35%{ filter:drop-shadow(0 0 14px currentColor); }
+  100%{ filter:drop-shadow(0 0 0 rgba(255,255,255,0)); }
+}
+.bldg-poly.pop{ animation:bldgPop .5s ease-out; }
+
+#tooltip{
+  position:absolute; pointer-events:none; background:#000; color:#fff; font-size:12px;
+  padding:5px 10px; border-radius:6px; border:1px solid #333; white-space:nowrap;
+  transform:translate(-50%,-130%); opacity:0; transition:opacity .1s; z-index:20;
+}
+#tooltip.show{opacity:1;}
+
+#infobox{
+  position:absolute; pointer-events:none; background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:10px 13px; min-width:180px; max-width:260px; box-shadow:0 8px 24px rgba(0,0,0,.5);
+  opacity:0; transition:opacity .15s, transform .15s; transform:translate(-50%,-100%) translateY(-14px);
+  z-index:25;
+}
+#infobox.show{opacity:1;}
+#infobox::after{
+  content:''; position:absolute; left:50%; bottom:-7px; transform:translateX(-50%);
+  border:7px solid transparent; border-top-color:var(--border);
+}
+#infobox .ib-building{font-size:10px; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin-bottom:3px;}
+#infobox .ib-name{font-size:13.5px; font-weight:650; margin-bottom:2px;}
+#infobox .ib-office{font-size:11.5px; color:var(--muted);}
+#infobox .ib-badge{
+  display:inline-flex; align-items:center; gap:5px; font-size:9.5px; font-weight:650;
+  padding:3px 8px; border-radius:20px; margin-top:7px;
+}
+#infobox .ib-badge.avail{background:#0f2a1a; color:var(--green); border:1px solid #1c4a30;}
+#infobox .ib-badge.unavail{background:#1c1c1f; color:var(--muted-2); border:1px solid var(--border);}
+#infobox .ib-badge .pulse{width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 1.8s infinite;}
+#infobox .ib-hours{margin-top:7px; padding-top:7px; border-top:1px dashed var(--border); display:flex; flex-direction:column; gap:3px;}
+#infobox .ib-hr{font-size:11px; color:var(--muted); display:flex; justify-content:space-between; gap:10px;}
+#infobox .ib-hr span:first-child{color:var(--text);}
+
+/* collapsed legend, bottom-right icon + popover */
+.mapctl{position:absolute; right:12px; bottom:12px; z-index:15;}
+#legendBtn{
+  width:34px; height:34px; border-radius:50%; background:rgba(20,20,22,.85); border:1px solid var(--border);
+  color:var(--muted); display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(6px);
+  font-size:14px; font-weight:700;
+}
+#legendBtn:hover{color:var(--text);}
+#legendPanel{
+  position:absolute; right:0; bottom:calc(100% + 8px); background:rgba(20,20,22,.95); border:1px solid var(--border);
+  border-radius:9px; padding:10px 12px; font-size:11.5px; color:var(--muted); backdrop-filter:blur(6px);
+  display:flex; flex-direction:column; gap:6px; width:240px;
+  opacity:0; pointer-events:none; transform:translateY(6px); transition:opacity .12s, transform .12s;
+}
+#legendPanel.open{opacity:1; pointer-events:auto; transform:translateY(0);}
+.lg-item{display:flex; align-items:flex-start; gap:7px; line-height:1.35;}
+.lg-item b{color:var(--text);}
+.lg-swatch{width:9px; height:9px; border-radius:3px; flex-shrink:0; margin-top:4px;}
+
+/* ---------- RESULTS PANEL ---------- */
+#panel{
+  width:360px; flex-shrink:0; border-left:1px solid var(--border); background:var(--surface);
+  display:flex; flex-direction:column; min-height:0;
+}
+#panelHeader{
+  padding:11px 15px; border-bottom:1px solid var(--border); font-size:12px; color:var(--muted);
+  display:flex; justify-content:space-between; align-items:center; flex-shrink:0;
+}
+#results{flex:1; overflow-y:auto; padding:10px;}
+.card{
+  background:var(--surface-2); border:1px solid var(--border); border-radius:9px;
+  padding:11px 12px; margin-bottom:7px; cursor:pointer; transition:border-color .12s;
+}
+.card:hover{border-color:#3a3a40;}
+.card.active{border-color:var(--red); box-shadow:0 0 0 1px var(--red) inset;}
+.card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:5px;}
+.card-name{font-size:13px; font-weight:640; line-height:1.3;}
+.card-dept{font-size:11px; color:var(--muted); margin-top:2px; line-height:1.35;}
+.badge{
+  flex-shrink:0; font-size:9.5px; font-weight:650; padding:3px 8px; border-radius:20px;
+  display:flex; align-items:center; gap:5px; white-space:nowrap;
+}
+.badge.avail{background:#0f2a1a; color:var(--green); border:1px solid #1c4a30;}
+.badge.unavail{background:#1c1c1f; color:var(--muted-2); border:1px solid var(--border);}
+.badge .pulse{width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 1.8s infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(51,209,122,.6);} 70%{box-shadow:0 0 0 5px rgba(51,209,122,0);} 100%{box-shadow:0 0 0 0 rgba(51,209,122,0);}}
+
+.card-meta{display:flex; gap:6px; flex-wrap:wrap; margin:6px 0 2px;}
+.tag{font-size:10px; padding:2px 7px; border-radius:5px; background:var(--surface); border:1px solid var(--border); color:var(--muted);}
+.tag.bldg{font-weight:650; color:#fff; border-color:transparent;}
+.tag.office{color:var(--text);}
+
+.hours{margin-top:6px; padding-top:6px; border-top:1px dashed var(--border); display:flex; flex-direction:column; gap:3px;}
+.hours .hr-row{font-size:11px; color:var(--muted); display:flex; justify-content:space-between; gap:8px;}
+.hours .hr-row .day{color:var(--text);}
+.no-office{font-size:11px; color:var(--muted-2); font-style:italic; margin-top:5px;}
+
+.empty{padding:40px 16px; text-align:center; color:var(--muted-2); font-size:13px;}
+
+::-webkit-scrollbar{width:9px; height:9px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#28282c; border-radius:20px;}
+::-webkit-scrollbar-thumb:hover{background:#36363c;}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 860px){
+  /* Let the WHOLE PAGE scroll normally (like a regular webpage) instead of
+     trapping scroll inside the map box and the results box separately.
+     That's what caused the "I can only scroll in this one little area"
+     and the double left/right + up/down scrollbars. */
+  html,body{height:auto;}
+  #app{height:auto; min-height:100dvh;}
+  #main{flex-direction:column; overflow:visible; height:auto;}
+
+  header{
+    position:sticky; top:0; z-index:30;
+    padding:10px 12px; flex-wrap:wrap; gap:8px; row-gap:10px;
+  }
+  .brand{order:0; font-size:15px;}
+  .brand-logo{height:24px;}
+  .searchwrap{order:1; flex:1 1 100%; max-width:none;}
+  #search{padding:11px 36px 11px 34px; font-size:14.5px; border-radius:8px;}
+  .searchwrap svg.icon{width:15px; height:15px;}
+  .filterwrap{order:2;}
+  #filterBtn{padding:9px 14px; font-size:13px; border-radius:8px;}
+  .counter{order:3; font-size:12.5px;}
+  #filterPanel{right:auto; left:0; width:min(280px, 88vw); padding:16px;}
+  .chip{font-size:13px; padding:7px 13px;}
+
+  /* map: no fixed height, no overflow, no forced background -- the box
+     shrinks/grows to exactly match the image, so there's no black
+     letterboxing and nothing to scroll inside. Pinch-zoom still works
+     since it's a plain image in the normal page flow. */
+  #mapPane{
+    order:1; 
+    width:100%; 
+    height:auto; 
+    overflow:hidden; 
+    background:transparent;
+    flex:none;
+  }
+  #mapStage{
+    width:100%;
+    transform:scale(1.5);
+    transform-origin:center center;
+  }
+  #mapStage img{
+    width:100%; 
+    height:auto;
+  }
+
+  /* results: no separate scroll region -- it's just the next thing in the
+     page, so scrolling it is the same as scrolling the whole page */
+  #panel{
+    order:2; width:100%; flex:none; min-height:0;
+    border-left:none; border-top:1px solid var(--border);
+  }
+  #panelHeader{padding:12px 15px; font-size:12.5px;}
+  #results{flex:none; overflow-y:visible; padding:10px;}
+
+  /* bigger, easier-to-read cards + touch targets in the results list */
+  .card{padding:13px 14px; margin-bottom:8px;}
+  .card-name{font-size:14.5px;}
+  .card-dept{font-size:12px;}
+  .badge{font-size:10.5px; padding:4px 9px;}
+  .tag{font-size:11px; padding:3px 8px;}
+  .hours .hr-row{font-size:12px;}
+
+  #infobox{
+    position:absolute;
+    max-width:140px;
+    min-width:90px;
+    font-size:8px;
+    padding:4px 6px;
+    border-radius:4px;
+    pointer-events:auto;
+    transform:translate(-50%, -115%);
+    z-index:50;
+    background:var(--surface);
+    border:1px solid var(--border);
+    box-shadow:0 6px 16px rgba(0,0,0,.8);
+    white-space:nowrap;
+  }
+  #infobox.show{
+    opacity:1;
+  }
+  #infobox .ib-building{font-size:6px; margin-bottom:0; text-transform:uppercase;}
+  #infobox .ib-name{font-size:8px; font-weight:650; margin-bottom:0;}
+  #infobox .ib-office{font-size:7px;}
+  #infobox .ib-badge{font-size:5px; padding:1px 3px; margin-top:1px; display:inline-block;}
+  #infobox .ib-hours{margin-top:1px; padding-top:1px;}
+  #infobox .ib-hr{font-size:6px; gap:2px;}
+  #infobox::after{
+    border-width:3px;
+    bottom:-4px;
+  }
+
+  .bldg-poly{
+    stroke-width:1.5 !important;
+  }
+  .mapctl{
+    position:relative;
+    right:auto;
+    bottom:auto;
+    margin:0;
+    padding:0;
+    width:100%;
+    display:flex;
+    justify-content:flex-end;
+    padding-right:12px;
+    margin-top:-30px;
+    z-index:5;
+  }
+  #legendBtn{
+    width:28px;
+    height:28px;
+    font-size:11px;
+    background:rgba(0,0,0,.7);
+    border:1px solid var(--border);
+    border-radius:50%;
+    color:var(--muted);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    backdrop-filter:blur(4px);
+    position:relative;
+  }
+  #legendPanel{
+    position:absolute;
+    top:calc(100% + 4px);
+    right:0;
+    width:min(240px, 78vw);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px 10px;
+    font-size:10px;
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(-4px);
+    transition:opacity .12s, transform .12s;
+    z-index:10;
+    box-shadow:0 8px 24px rgba(0,0,0,.5);
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    max-height:200px;
+    overflow-y:auto;
+  }
+  #legendPanel.open{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateY(0);
+  }
+  .lg-item{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-size:10px;
+    padding:2px 0;
+  }
+  .lg-swatch{
+    width:7px;
+    height:7px;
+    border-radius:2px;
+    flex-shrink:0;
+    margin-top:0;
+  }
+}
+
+/* hover tooltips only make sense on devices that actually have hover;
+   on touch, tapping a building already opens the (bigger) info popup,
+   so hide the old hover tooltip instead of leaving it stuck on screen */
+@media (hover: none) and (pointer: coarse){
+  #tooltip{display:none !important;}
+}
