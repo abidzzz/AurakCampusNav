@@ -155,6 +155,9 @@ let state = {
   selectedFaculty: null,
   manualPick: false,   // true only when the user explicitly clicked a card/building/chip
   dismissed: false,    // true when the user explicitly clicked empty map space to hide the popup
+  youAreHere: null,    // building code set via ?loc= in the URL (QR code entry point)
+  routeFrom: null,     // active route start (usually == youAreHere)
+  routeTo: null,        // active route destination
 };
 
 /* --------------------------- FILTER DROPDOWN ----------------------------- */
@@ -256,13 +259,15 @@ const infobox = document.getElementById('infobox');
 // we skip the hover handlers entirely and rely on tap -> click -> info popup.
 const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
+let overlayH = 0; // current SVG viewBox height (1000 * image aspect ratio) -- route lines need this too
+
 function initOverlay(){
   const ratio = mapImg.naturalHeight / mapImg.naturalWidth;
-  overlay.setAttribute('viewBox', `0 0 1000 ${1000*ratio}`);
-  const H = 1000*ratio;
+  overlayH = 1000*ratio;
+  overlay.setAttribute('viewBox', `0 0 1000 ${overlayH}`);
   overlay.innerHTML = '';
   bldgCodes.forEach(code => {
-    const pts = BUILDINGS[code].points.map(p => `${p.x*1000},${p.y*H}`).join(' ');
+    const pts = BUILDINGS[code].points.map(p => `${p.x*1000},${p.y*overlayH}`).join(' ');
     const poly = document.createElementNS('http://www.w3.org/2000/svg','polygon');
     poly.setAttribute('points', pts);
     poly.setAttribute('class', 'bldg-poly');
@@ -276,6 +281,10 @@ function initOverlay(){
     overlay.appendChild(poly);
   });
   paintPolys();
+  // the overlay is rebuilt from scratch above (innerHTML = ''), so if a route
+  // line was already active it needs to be redrawn on top of the fresh polys
+  if (state.routeFrom && state.routeTo) drawRouteLine(state.routeFrom, state.routeTo);
+  if (state.selectedBuilding) showInfobox(state.selectedBuilding, state.selectedFaculty);
 }
 mapImg.addEventListener('load', initOverlay);
 if (mapImg.complete && mapImg.naturalWidth) initOverlay();
@@ -321,11 +330,16 @@ function paintPolys(prevCode){
   bldgCodes.forEach(code => {
     const poly = overlay.querySelector(`polygon[data-code="${code}"]`);
     if (!poly) return;
-    if (state.selectedBuilding === code){
+    const isSelected = state.selectedBuilding === code;
+    const isRouteFrom = state.routeFrom === code;
+    const isRouteTo = state.routeTo === code;
+    if (isSelected || isRouteFrom || isRouteTo){
       poly.style.stroke = BUILDINGS[code].color;
       poly.style.fill = BUILDINGS[code].color + '3d';
       poly.classList.add('selected');
-      if (code !== prevCode){
+      poly.classList.toggle('route-from', isRouteFrom);
+      poly.classList.toggle('route-to', isRouteTo);
+      if (isSelected && code !== prevCode){
         poly.classList.remove('pop');
         void poly.offsetWidth; // restart animation
         poly.classList.add('pop');
@@ -333,7 +347,7 @@ function paintPolys(prevCode){
     } else {
       poly.style.stroke = 'transparent';
       poly.style.fill = 'transparent';
-      poly.classList.remove('selected','pop');
+      poly.classList.remove('selected','pop','route-from','route-to');
     }
   });
 }
@@ -367,10 +381,12 @@ function dismissSelection(){
 function showInfobox(code, faculty){
   if (!code || !BUILDINGS[code]){ infobox.classList.remove('show'); return; }
   const b = BUILDINGS[code];
-  const pts = b.points;
-  const minY = Math.min(...pts.map(p=>p.y));
-  const xs = pts.map(p=>p.x);
-  const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
+const pts = b.points;
+const minY = Math.min(...pts.map(p=>p.y));
+const avgY = pts.reduce((s,p)=>s+p.y, 0) / pts.length;
+const anchorY = minY + (avgY - minY) * 0.55; // nudge anchor down from the roof apex toward the shape's center
+const xs = pts.map(p=>p.x);
+const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
   // Position relative to #mapPane (which is never transformed), not
   // #mapStage. On mobile, #mapStage is zoomed with a CSS transform:scale(),
   // and since infobox used to live inside #mapStage, its on-screen size and
@@ -381,14 +397,11 @@ function showInfobox(code, faculty){
   const mapPane = document.getElementById('mapPane');
   const stage = document.getElementById('mapStage');
   const paneRect = mapPane.getBoundingClientRect();
-  let scale = 1;
-  const stageTransform = getComputedStyle(stage).transform;
-  if (stageTransform && stageTransform !== 'none'){
-    const matrix = new DOMMatrix(stageTransform);
-    scale = matrix.a || 1;
-  }
-  const left = paneRect.width / 2 + paneRect.width * (cx - 0.5) * scale;
-  const top = paneRect.height / 2 + paneRect.height * (minY - 0.5) * scale;
+  const stageRect = stage.getBoundingClientRect(); // the real rendered box -- already
+                                                    // reflects any CSS transform (e.g. the
+                                                    // mobile zoom), so no manual scale math needed
+  const left = (stageRect.left - paneRect.left) + stageRect.width * cx;
+  const top = (stageRect.top - paneRect.top) + stageRect.height * anchorY;
   infobox.style.left = left + 'px';
   infobox.style.top = top + 'px';
   infobox.style.transform = ''; // reset any previous clamp before remeasuring
@@ -409,8 +422,17 @@ function showInfobox(code, faculty){
   } else {
     body = count ? `<div class="ib-name">${count} faculty member${count===1?'':'s'}</div><div class="ib-office">Click a name to locate their office</div>` : '';
   }
-  infobox.innerHTML = `<div class="ib-building">${code} · ${b.name}</div>${body}`;
+  const hereBadge = code === state.youAreHere ? `<div class="ib-here">📍 You are here</div>` : '';
+  const dirBtn = (state.youAreHere && code !== state.youAreHere)
+    ? `<button class="dir-btn" id="dirBtn">Directions from here</button>` : '';
+  infobox.innerHTML = `${hereBadge}<div class="ib-building">${code} · ${b.name}</div>${body}${dirBtn}`;
   infobox.classList.add('show');
+  const dirBtnEl = document.getElementById('dirBtn');
+  if (dirBtnEl) dirBtnEl.onclick = (e) => {
+    e.stopPropagation();
+    showRoute(state.youAreHere, code);
+    infobox.classList.remove('show'); // hide the popup so it doesn't sit on top of the route line
+  };
 
   // clamp horizontally so the popup never runs off the edge of a small
   // (mobile) screen -- measure after layout, then nudge it back on-screen
@@ -449,6 +471,76 @@ function isAvailableNow(faculty){
   }
   return anyParsed ? 'unavailable' : 'unknown';
 }
+
+/* ------------------------------- DIRECTIONS -------------------------------- */
+// Looks up a traced route between two building codes in PATHS (data/paths.js).
+// Routes are only traced in one direction there, so this checks both ways and
+// reverses the point list when the match is the "wrong" direction.
+function findRoutePoints(fromCode, toCode){
+  let p = PATHS.find(p => p.from === fromCode && p.to === toCode);
+  if (p) return { points: p.points, color: p.color };
+  p = PATHS.find(p => p.from === toCode && p.to === fromCode);
+  if (p) return { points: [...p.points].reverse(), color: p.color };
+  return null;
+}
+
+function drawRouteLine(fromCode, toCode){
+  removeRouteLine();
+  const route = findRoutePoints(fromCode, toCode);
+  if (!route || !overlayH) return false;
+  const pts = route.points.map(p => `${p.x*1000},${p.y*overlayH}`).join(' ');
+  const line = document.createElementNS('http://www.w3.org/2000/svg','polyline');
+  line.setAttribute('points', pts);
+  line.setAttribute('class','route-line');
+  line.id = 'routeLine';
+  line.style.stroke = route.color || '#fff';
+  overlay.appendChild(line);
+  return true;
+}
+function removeRouteLine(){
+  const old = document.getElementById('routeLine');
+  if (old) old.remove();
+}
+
+const routeBarEl = document.getElementById('routeBar');
+function updateRouteBar(fromCode, toCode, found){
+  const fromName = BUILDINGS[fromCode].name;
+  const toName = BUILDINGS[toCode].name;
+  routeBarEl.innerHTML = found
+    ? `<div class="rb-text"><b>${fromCode}</b> → <b>${toCode}</b><span class="rb-sub">${fromName} to ${toName}</span></div><button id="rbClear">Clear route</button>`
+    : `<div class="rb-text rb-warn">No traced path yet between ${fromCode} and ${toCode}.</div><button id="rbClear">Clear route</button>`;
+  routeBarEl.classList.add('show');
+  document.getElementById('rbClear').onclick = clearRoute;
+}
+
+function showRoute(fromCode, toCode){
+  if (!fromCode || !toCode || !BUILDINGS[fromCode] || !BUILDINGS[toCode] || fromCode === toCode) return;
+  const found = drawRouteLine(fromCode, toCode);
+  state.routeFrom = fromCode;
+  state.routeTo = toCode;
+  paintPolys();
+  updateRouteBar(fromCode, toCode, found);
+}
+function clearRoute(){
+  state.routeFrom = null;
+  state.routeTo = null;
+  removeRouteLine();
+  paintPolys();
+  routeBarEl.classList.remove('show');
+}
+
+/* ------------------------- "YOU ARE HERE" VIA QR --------------------------- */
+// A QR code posted at a building's entrance links to ?loc=<code>, e.g. ?loc=G.
+// That auto-selects the building as both the map selection and the routing
+// origin, so any "Directions from here" button elsewhere just works.
+(function initLocationFromQR(){
+  const params = new URLSearchParams(window.location.search);
+  const loc = (params.get('loc') || '').trim().toUpperCase();
+  if (loc && BUILDINGS[loc]){
+    state.youAreHere = loc;
+    selectBuilding(loc, null, true);
+  }
+})();
 
 /* ------------------------------- SEARCH ----------------------------------- */
 const searchEl = document.getElementById('search');
@@ -546,6 +638,7 @@ function render(){
     const hoursHtml = f.hours.length
       ? `<div class="hours">${f.hours.map(h => `<div class="hr-row"><span class="day">${h.dayLabel || '—'}</span><span>${h.timeLabel || '—'}</span></div>`).join('')}</div>`
       : '';
+    const showDirBtn = state.youAreHere && f.building && f.building !== state.youAreHere;
     card.innerHTML = `
       <div class="card-top">
         <div>
@@ -557,12 +650,22 @@ function render(){
       <div class="card-meta">${schoolTag}${bldgTag}${officeTag}</div>
       ${!f.offices.length ? `<div class="no-office">Office not listed</div>` : ''}
       ${hoursHtml}
+      ${showDirBtn ? `<button class="card-dir">Directions</button>` : ''}
     `;
     card.onclick = () => {
       if (f.building && BUILDINGS[f.building]) selectBuilding(f.building, f, true);
       else clearSelection();
       render();
     };
+    const cardDirBtn = card.querySelector('.card-dir');
+    if (cardDirBtn){
+      cardDirBtn.onclick = (e) => {
+        e.stopPropagation();
+        selectBuilding(f.building, f, true);
+        showRoute(state.youAreHere, f.building);
+        render();
+      };
+    }
     resultsEl.appendChild(card);
   });
 }
