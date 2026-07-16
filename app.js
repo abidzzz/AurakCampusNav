@@ -1,7 +1,8 @@
 /* =========================================================================
    AURAK Campus Directory — app.js
-   Reads FACULTY_CSV (data/faculty.js) and BUILDINGS (data/buildings.js),
-   parses everything client-side, and renders the map + directory.
+   Reads FACULTY_CSV (data/faculty.js), BUILDINGS (data/buildings.js),
+   and PATH_GRAPH (data/path_graph.json), parses everything client-side,
+   and renders the map + directory with A* pathfinding.
    ========================================================================= */
 
 /* ---------------------------- CSV PARSING ------------------------------ */
@@ -140,6 +141,148 @@ function buildFacultyList(rows){
 
 const FACULTY = buildFacultyList(parseCSV(FACULTY_CSV));
 
+/* ---------------------------- PATH GRAPH ------------------------------- */
+// Build adjacency list from the graph for fast lookups
+function buildAdjacency(nodes, edges) {
+  const adj = {};
+  nodes.forEach(n => adj[n.id] = []);
+  edges.forEach(e => {
+    adj[e.a].push(e.b);
+    adj[e.b].push(e.a);
+  });
+  return adj;
+}
+
+// Node lookup by ID
+function buildNodeMap(nodes) {
+  const map = {};
+  nodes.forEach(n => map[n.id] = n);
+  return map;
+}
+
+// Euclidean distance between two nodes (fractional coords)
+function nodeDist(a, b) {
+  const dx = a.x - b.x;
+  const dy = a.y - b.y;
+  return Math.sqrt(dx*dx + dy*dy);
+}
+
+// A* pathfinding
+function aStar(startId, goalId, nodes, edges) {
+  const adj = buildAdjacency(nodes, edges);
+  const nodeMap = buildNodeMap(nodes);
+  
+  if (!nodeMap[startId] || !nodeMap[goalId]) return null;
+  if (startId === goalId) return [startId];
+
+  const openSet = new Set([startId]);
+  const cameFrom = {};
+  const gScore = {};
+  const fScore = {};
+
+  nodes.forEach(n => {
+    gScore[n.id] = Infinity;
+    fScore[n.id] = Infinity;
+  });
+  gScore[startId] = 0;
+  fScore[startId] = nodeDist(nodeMap[startId], nodeMap[goalId]);
+
+  while (openSet.size > 0) {
+    // Find node in openSet with lowest fScore
+    let current = null;
+    let bestF = Infinity;
+    for (const id of openSet) {
+      if (fScore[id] < bestF) {
+        bestF = fScore[id];
+        current = id;
+      }
+    }
+
+    if (current === goalId) {
+      // Reconstruct path
+      const path = [];
+      let c = current;
+      while (c) {
+        path.unshift(c);
+        c = cameFrom[c];
+      }
+      return path;
+    }
+
+    openSet.delete(current);
+
+    for (const neighbor of adj[current] || []) {
+      const tentativeG = gScore[current] + nodeDist(nodeMap[current], nodeMap[neighbor]);
+      if (tentativeG < gScore[neighbor]) {
+        cameFrom[neighbor] = current;
+        gScore[neighbor] = tentativeG;
+        fScore[neighbor] = gScore[neighbor] + nodeDist(nodeMap[neighbor], nodeMap[goalId]);
+        openSet.add(neighbor);
+      }
+    }
+  }
+
+  return null; // No path found
+}
+
+// Find the entrance node(s) for a building
+function getEntranceNodes(buildingCode) {
+  if (!PATH_GRAPH) return [];
+  return PATH_GRAPH.nodes.filter(n => 
+    n.type === 'entrance' && n.building === buildingCode
+  );
+}
+
+// Get the closest entrance node to a given point (or building center)
+function getClosestEntrance(buildingCode, targetX, targetY) {
+  const entrances = getEntranceNodes(buildingCode);
+  if (entrances.length === 0) return null;
+  if (entrances.length === 1) return entrances[0].id;
+  
+  // Find closest entrance to the target point
+  let closest = null;
+  let closestDist = Infinity;
+  for (const ent of entrances) {
+    const d = Math.sqrt((ent.x - targetX)**2 + (ent.y - targetY)**2);
+    if (d < closestDist) {
+      closestDist = d;
+      closest = ent.id;
+    }
+  }
+  return closest;
+}
+
+// Get building center from BUILDINGS data
+function getBuildingCenter(code) {
+  const b = BUILDINGS[code];
+  if (!b) return null;
+  const pts = b.points;
+  const cx = pts.reduce((s,p) => s + p.x, 0) / pts.length;
+  const cy = pts.reduce((s,p) => s + p.y, 0) / pts.length;
+  return { x: cx, y: cy };
+}
+
+// Find path between two buildings
+function findPathBetweenBuildings(fromCode, toCode) {
+  if (!PATH_GRAPH) return null;
+  
+  const fromCenter = getBuildingCenter(fromCode);
+  const toCenter = getBuildingCenter(toCode);
+  if (!fromCenter || !toCenter) return null;
+  
+  const fromEntrance = getClosestEntrance(fromCode, fromCenter.x, fromCenter.y);
+  const toEntrance = getClosestEntrance(toCode, toCenter.x, toCenter.y);
+  
+  if (!fromEntrance || !toEntrance) return null;
+  
+  const pathIds = aStar(fromEntrance, toEntrance, PATH_GRAPH.nodes, PATH_GRAPH.edges);
+  if (!pathIds) return null;
+  
+  // Convert node IDs to points for drawing
+  const nodeMap = buildNodeMap(PATH_GRAPH.nodes);
+  return pathIds.map(id => nodeMap[id]);
+}
+
 /* ------------------------------- STATE ---------------------------------- */
 const SCHOOL_SHORT = {
   'School of Business': 'Business',
@@ -157,7 +300,8 @@ let state = {
   dismissed: false,    // true when the user explicitly clicked empty map space to hide the popup
   youAreHere: null,    // building code set via ?loc= in the URL (QR code entry point)
   routeFrom: null,     // active route start (usually == youAreHere)
-  routeTo: null,        // active route destination
+  routeTo: null,       // active route destination
+  routePath: null,     // array of {x, y} points for the current route
 };
 
 /* --------------------------- FILTER DROPDOWN ----------------------------- */
@@ -282,8 +426,8 @@ function initOverlay(){
   });
   paintPolys();
   // the overlay is rebuilt from scratch above (innerHTML = ''), so if a route
-  // line was already active it needs to be redrawn on top of the fresh polys
-  if (state.routeFrom && state.routeTo) drawRouteLine(state.routeFrom, state.routeTo);
+  // was already active it needs to be redrawn on top of the fresh polys
+  if (state.routePath) drawRoutePath(state.routePath);
   if (state.selectedBuilding) showInfobox(state.selectedBuilding, state.selectedFaculty);
 }
 mapImg.addEventListener('load', initOverlay);
@@ -473,30 +617,21 @@ function isAvailableNow(faculty){
 }
 
 /* ------------------------------- DIRECTIONS -------------------------------- */
-// Looks up a traced route between two building codes in PATHS (data/paths.js).
-// Routes are only traced in one direction there, so this checks both ways and
-// reverses the point list when the match is the "wrong" direction.
-function findRoutePoints(fromCode, toCode){
-  let p = PATHS.find(p => p.from === fromCode && p.to === toCode);
-  if (p) return { points: p.points, color: p.color };
-  p = PATHS.find(p => p.from === toCode && p.to === fromCode);
-  if (p) return { points: [...p.points].reverse(), color: p.color };
-  return null;
-}
-
-function drawRouteLine(fromCode, toCode){
+// Draw a path from A* on the map
+function drawRoutePath(pathNodes) {
   removeRouteLine();
-  const route = findRoutePoints(fromCode, toCode);
-  if (!route || !overlayH) return false;
-  const pts = route.points.map(p => `${p.x*1000},${p.y*overlayH}`).join(' ');
+  if (!pathNodes || pathNodes.length < 2 || !overlayH) return false;
+  
+  const pts = pathNodes.map(p => `${p.x*1000},${p.y*overlayH}`).join(' ');
   const line = document.createElementNS('http://www.w3.org/2000/svg','polyline');
   line.setAttribute('points', pts);
   line.setAttribute('class','route-line');
   line.id = 'routeLine';
-  line.style.stroke = route.color || '#fff';
+  line.style.stroke = '#4af5ff';
   overlay.appendChild(line);
   return true;
 }
+
 function removeRouteLine(){
   const old = document.getElementById('routeLine');
   if (old) old.remove();
@@ -508,22 +643,36 @@ function updateRouteBar(fromCode, toCode, found){
   const toName = BUILDINGS[toCode].name;
   routeBarEl.innerHTML = found
     ? `<div class="rb-text"><b>${fromCode}</b> → <b>${toCode}</b><span class="rb-sub">${fromName} to ${toName}</span></div><button id="rbClear">Clear route</button>`
-    : `<div class="rb-text rb-warn">No traced path yet between ${fromCode} and ${toCode}.</div><button id="rbClear">Clear route</button>`;
+    : `<div class="rb-text rb-warn">No path found between ${fromCode} and ${toCode}.</div><button id="rbClear">Clear route</button>`;
   routeBarEl.classList.add('show');
   document.getElementById('rbClear').onclick = clearRoute;
 }
 
 function showRoute(fromCode, toCode){
   if (!fromCode || !toCode || !BUILDINGS[fromCode] || !BUILDINGS[toCode] || fromCode === toCode) return;
-  const found = drawRouteLine(fromCode, toCode);
+  
+  // Use A* to find the path
+  const pathNodes = findPathBetweenBuildings(fromCode, toCode);
+  const found = pathNodes && pathNodes.length > 1;
+  
+  if (found) {
+    state.routePath = pathNodes;
+    drawRoutePath(pathNodes);
+  } else {
+    state.routePath = null;
+    removeRouteLine();
+  }
+  
   state.routeFrom = fromCode;
   state.routeTo = toCode;
   paintPolys();
   updateRouteBar(fromCode, toCode, found);
 }
+
 function clearRoute(){
   state.routeFrom = null;
   state.routeTo = null;
+  state.routePath = null;
   removeRouteLine();
   paintPolys();
   routeBarEl.classList.remove('show');
