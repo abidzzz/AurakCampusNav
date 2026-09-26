@@ -6,363 +6,106 @@
 // Save the file and refresh index.html -- nothing else needs to change.
 
 const FACULTY_CSV = `semester,school,faculty,department,day,time,office
-
-Spring 2026,School of Business,Prof. Tahseen Arshi,,Mon-Wed,12:00 PM – 4:00 PM,H-301 B
-
-Spring 2026,School of Business,Dr. Abdelfatah Arman,,Mon and Wed,9:00 AM – 3:00 PM,H-301 D
-
-Spring 2026,School of Business,Dr. Abdelfatah Arman,,Tue and Thu,9:00 AM- 1:30 PM,H-301 D
-
-Spring 2026,School of Business,Dr. Khalid Khan,,"Mon, Wed, Tue,Thu",10:00 AM – 1:30 PM,H-323
-
-Spring 2026,School of Business,Dr. Khalid Khan,,Tue-Thu,12:00 PM – 3:00 PM,H-323
-
-Spring 2026,School of Business,Dr. Khalid Khan,,Saturday,2:00 – 3:00 PM,H-323
-
-Spring 2026,School of Business,Dr. Tariq Bhatti,,Mon-Wed,11:30 AM – 1:30 PM,H-318
-
-Spring 2026,School of Business,Dr. Tariq Bhatti,,Sat,11:00 AM – 12:00 PM,H-318
-
-Spring 2026,School of Business,Dr. Mohamed Mahdi,,Tue-Thu,12:00 PM – 2:00 PM,H-321
-
-Spring 2026,School of Business,Dr. Mohamed Mahdi,,Sat,12:00 PM – 2:00 PM,H-321
-
-Spring 2026,School of Business,Dr. Pranav Kumar,,Tue-Thu,11:45 AM – 1:30 PM,H-314
-
-Spring 2026,School of Business,Dr. Pranav Kumar,,Tue-Thu,,H-314
-
-Spring 2026,School of Business,Dr. Pranav Kumar,,Wed,11:30 AM – 1:00 PM,H-314
-
-Spring 2026,School of Business,Dr. Pranav Kumar,,Sat,11:30 AM – 12:30 PM,H-314
-
-Spring 2026,School of Business,Dr. Anurag Guglani,,Mon-Wed,12:00 PM – 3:00 PM,H-331
-
-Spring 2026,School of Business,Dr. Mohammed Azzam,,Mon-Wed,1:00 PM – 3:00 PM,H-315
-
-Spring 2026,School of Business,Dr. Mohammed Azzam,,Tue-Thu,1:30 PM – 3:00 PM,H-315
-
-Spring 2026,School of Business,Dr. Haileslasie Tadele,,Tue,11:00 AM – 12:00 PM,H-316
-
-Spring 2026,School of Business,Dr. Haileslasie Tadele,,Wed,2:00 PM – 3:00 PM,H-316
-
-Spring 2026,School of Business,Dr. Haileslasie Tadele,,Thu,11:00 AM – 12:00 PM,H-316
-
-Spring 2026,School of Business,Dr. Haileslasie Tadele,,Sat,11:30 AM – 12:30 PM,H-316
-
-Spring 2026,School of Business,Dr. Hussain Muhammed,,Tue-Thu,12:45 PM – 2:45 PM,H-322
-
-Spring 2026,School of Business,Dr. Hussain Muhammed,,Sat,2:00 PM – 3:00 PM,H-322
-
-Spring 2026,School of Business,Dr. Baliira Kalyebara,,Mon-Tue-Wed,2:45 PM – 4:15 PM,H-324
-
-Spring 2026,School of Business,Dr. Baliira Kalyebara,,Sat,2:00 PM – 3:00 PM,H-324
-
-Spring 2026,School of Business,Dr. Mukdad Ibrahim,,Tue-Thu,3:00 PM – 4:00 PM,H-332
-
-Spring 2026,School of Business,Dr. Riya Bhattacharya,,Tue,2:00 PM – 3:00 PM,H-320
-
-Spring 2026,School of Business,Dr. Riya Bhattacharya,,Thu,12:00 PM – 2:00 PM,H-320
-
-Spring 2026,School of Engineering and Computing,Dr. Fayez Moutassem,Architecture & Civil Engineering Department,Mon & Wed,12:00 pm – 2:00 pm,G – 320
-
-Spring 2026,School of Engineering and Computing,Prof. Hamed Assaf,Architecture & Civil Engineering Department,Mon & Tue,4:00 pm – 5:00 pm,G - 319B
-
-Spring 2026,School of Engineering and Computing,Prof. Hamed Assaf,Architecture & Civil Engineering Department,Fri,12:00 pm – 1:00 pm,G - 319B
-
-Spring 2026,School of Engineering and Computing,Prof. Roz-Ud-Din Nassar,Architecture & Civil Engineering Department,Mon,12:00 pm – 1:00 pm,G - 310
-
-Spring 2026,School of Engineering and Computing,Prof. Roz-Ud-Din Nassar,Architecture & Civil Engineering Department,Tue & Thu,10:30 am – 12:00 pm,G - 310
-
-Spring 2026,School of Engineering and Computing,Dr. Nael Alsaleh,Architecture & Civil Engineering Department,Mon & Wed,10:30 am – 12:30 pm,G - 304
-
-Spring 2026,School of Engineering and Computing,Prof. Buthayna Eilouti,Architecture & Civil Engineering Department,Mon-Tue-Wed-Thu,12:00 pm – 1:15 pm,G - 350
-
-Spring 2026,School of Engineering and Computing,Dr. Liudmila Cazacova,Architecture & Civil Engineering Department,Mon & Wed,2:15 pm – 3:15 pm,G – 351
-
-Spring 2026,School of Engineering and Computing,Dr. Liudmila Cazacova,Architecture & Civil Engineering Department,Tue & Thu,11:15 am – 12:15 pm,G – 351
-
-Spring 2026,School of Engineering and Computing,Eng. Tawfiq Abu Hantash,Architecture & Civil Engineering Department,Mon & Wed,10:30 am – 12:00 pm,G - 348
-
-Spring 2026,School of Engineering and Computing,Dr. Anis Semlali,Architecture & Civil Engineering Department,Mon & Wed,9:00 am – 11:30 am,G – 339
-
-Spring 2026,School of Engineering and Computing,Dr. Eman Assi,Architecture & Civil Engineering Department,Tue & Thu,10:30 am – 12:00 pm,G - 353
-
-Spring 2026,School of Engineering and Computing,Dr. Fathia Elmenghawi,Architecture & Civil Engineering Department,Mon & Wed,1:00 pm – 2:30 pm,G - 352
-
-Spring 2026,School of Engineering and Computing,Eng. Abeer Abu Raed,Architecture & Civil Engineering Department,Mon-Tue-Wed-Thu,11:15 am – 12:00 pm,G - 349
-
-Spring 2026,School of Engineering and Computing,Ms. Inshirah Shublaq,Architecture & Civil Engineering Department,Thu,10:15 am – 12:15 pm,L - 215
-
-Spring 2026,School of Engineering and Computing,Dr. Sara Faiz,Chemical & Petroleum Engineering Department,Mon & Wed,12:00 pm – 1:15 pm,G – 321
-
-Spring 2026,School of Engineering and Computing,Dr. Sara Faiz,Chemical & Petroleum Engineering Department,Tue & Thu,"10:30 am – 11:45 am, 3:00 pm – 4:15 pm",G – 321
-
-Spring 2026,School of Engineering and Computing,Dr. Sara Faiz,Chemical & Petroleum Engineering Department,Tue,1:30 pm – 2:45 pm,G – 321
-
-Spring 2026,School of Engineering and Computing,Dr. Sara Faiz,Chemical & Petroleum Engineering Department,Fri,12:00 pm – 1:15 pm (MS Teams),G – 321
-
-Spring 2026,School of Engineering and Computing,Dr. Uday Kumar,Chemical & Petroleum Engineering Department,Mon,10:30 am – 1:15 pm,G – 313
-
-Spring 2026,School of Engineering and Computing,Dr. Uday Kumar,Chemical & Petroleum Engineering Department,Tue & Wed,"10:30 am – 1:15 pm, 3:00 pm – 4:30 pm",G – 313
-
-Spring 2026,School of Engineering and Computing,Dr. Uday Kumar,Chemical & Petroleum Engineering Department,Thu,"10:30 am – 11:30 am,",G – 313
-
-Spring 2026,School of Engineering and Computing,Dr. Nageswara Lakkimsetty,Chemical & Petroleum Engineering Department,,10:30 am – 11:45 am,G – 312
-
-Spring 2026,School of Engineering and Computing,Dr. Nageswara Lakkimsetty,Chemical & Petroleum Engineering Department,Mon & Wed,3:00 pm – 4:15 pm,G – 312
-
-Spring 2026,School of Engineering and Computing,Dr. Nageswara Lakkimsetty,Chemical & Petroleum Engineering Department,,4:30 pm – 5:45 pm,G – 312
-
-Spring 2026,School of Engineering and Computing,Dr. Nageswara Lakkimsetty,Chemical & Petroleum Engineering Department,Tue & Thu,12:00 pm – 1: 15 pm,G – 312
-
-Spring 2026,School of Engineering and Computing,Dr. Nageswara Lakkimsetty,Chemical & Petroleum Engineering Department,Thu,3:00 pm – 4:15 pm,G – 312
-
-Spring 2026,School of Engineering and Computing,Prof. Arun Kumar,Chemical & Petroleum Engineering Department,Mon-Tue-Wed-Thu,3:00 pm – 4:00 pm,G – 345
-
-Spring 2026,School of Engineering and Computing,Prof. Mohammed Omari,Computer Science & Engineering Department,Mon & Wed,9:30 am – 10:30 am,G – 343
-
-Spring 2026,School of Engineering and Computing,Prof. Mohammed Omari,Computer Science & Engineering Department,Tue & Thu,10:30 am – 12:00 pm,G – 343
-
-Spring 2026,School of Engineering and Computing,Dr. Khouloud Salameh,Computer Science & Engineering Department,Mon & Wed,9:00 am – 11:30 am,G – 326B
-
-Spring 2026,School of Engineering and Computing,Prof. Mohammed Awad,Computer Science & Engineering Department,Mon & Wed,9:00 am – 12:00 pm,G – 319A
-
-Spring 2026,School of Engineering and Computing,Prof. Arfan Ghani,Computer Science & Engineering Department,Tue,9:00 am – 10:00 am,G – 314
-
-Spring 2026,School of Engineering and Computing,Prof. Arfan Ghani,Computer Science & Engineering Department,Thu,"9:00 am – 10:00 am, 11: 45 am – 12:45 pm",G – 314
-
-Spring 2026,School of Engineering and Computing,Dr. Ali Alnoman,Computer Science & Engineering Department,Mon & Wed,9:30 am – 10:30 am,G – 336
-
-Spring 2026,School of Engineering and Computing,Dr. Ali Alnoman,Computer Science & Engineering Department,Tue & Thu,12:30 pm – 1:30 pm,G – 336
-
-Spring 2026,School of Engineering and Computing,Dr. Khaled Omar Balawafi,Computer Science & Engineering Department,Mon-Tue-Wed,12:00 pm – 2:00 pm,G - 316
-
-Spring 2026,School of Engineering and Computing,Dr. Lobna Nassar,Computer Science & Engineering Department,Tue & Thu,12:00 pm – 1:30 pm,G – 347
-
-Spring 2026,School of Engineering and Computing,Dr. Lobna Nassar,Computer Science & Engineering Department,Wed,1:30 pm – 2:45 pm,G – 347
-
-Spring 2026,School of Engineering and Computing,Dr. Zubaidah Al Hazza,Computer Science & Engineering Department,Tue & Thu,12:00 pm – 3:00 pm,G - 338
-
-Spring 2026,School of Engineering and Computing,Eng. Umar Adeel,Computer Science & Engineering Department,Mon,"11:30 am – 12:00 pm, 1:30 pm – 3:00 pm",G – 335
-
-Spring 2026,School of Engineering and Computing,Eng. Umar Adeel,Computer Science & Engineering Department,Wed & Thu,2:00 pm – 3:00 pm,G – 335
-
-Spring 2026,School of Engineering and Computing,Eng. Abdul Rahman Al Muaitah,Computer Science & Engineering Department,Mon-Thu-Wed,2:00 pm – 3:00 pm,AI Lab – Bldg. G Ground floor
-
-Spring 2026,School of Engineering and Computing,Dr. Ali Al Ataby,Electrical & Electronics Engineering Department,,10:30 am – 11:45 am,G – 322
-
-Spring 2026,School of Engineering and Computing,Dr. Ali Al Ataby,Electrical & Electronics Engineering Department,Mon-Tue-Wed-Thu,12:00 pm – 1:45 pm,G – 322
-
-Spring 2026,School of Engineering and Computing,Dr. Ali Al Ataby,Electrical & Electronics Engineering Department,,4:30 pm – 5:15 pm,G – 322
-
-Spring 2026,School of Engineering and Computing,Dr. Ali Al Ataby,Electrical & Electronics Engineering Department,Tue-Wed-Thu,3:00 pm – 4:15 pm,G – 322
-
-Spring 2026,School of Engineering and Computing,Dr. Maissa Farhat,Electrical & Electronics Engineering Department,Mon & Wed,10:30 am – 11:45 am,G – 341
-
-Spring 2026,School of Engineering and Computing,Dr. Maissa Farhat,Electrical & Electronics Engineering Department,Tue,11:45 am – 2:45 pm,G – 341
-
-Spring 2026,School of Engineering and Computing,Dr. Beza Getu,Electrical & Electronics Engineering Department,Mon-Tue-Wed-Thu,12:00 pm – 1:15 pm,G – 334
-
-Spring 2026,School of Engineering and Computing,Dr. Hussain Attia,Electrical & Electronics Engineering Department,Tue & Thu,10:30 am – 12:30 pm,G - 306
-
-Spring 2026,School of Engineering and Computing,Dr. Maram Helmy,Electrical & Electronics Engineering Department,Mon & Wed,12:00 pm – 2:00 pm,G - 344
-
-Spring 2026,School of Engineering and Computing,Dr. Khaled Hossin,Mechanical Engineering Department,Mon,"10:30 am – 11:45 am, 1:30 pm – 2:30 pm",G – 323
-
-Spring 2026,School of Engineering and Computing,Dr. Khaled Hossin,Mechanical Engineering Department,Wed,10:30 am – 11:45 am,G – 323
-
-Spring 2026,School of Engineering and Computing,Prof. Ahmad Sakhrieh,Mechanical Engineering Department,Mon,1:30 pm – 2:45 pm,G – 318
-
-Spring 2026,School of Engineering and Computing,Prof. Ahmad Sakhrieh,Mechanical Engineering Department,Wed & Sat,10:30 am – 11:45 am,G – 318
-
-Spring 2026,School of Engineering and Computing,Prof. Muataz Al Hazza,Mechanical Engineering Department,Mon & Wed,9:00 am – 10:30 am,G – 346
-
-Spring 2026,School of Engineering and Computing,Prof. Muataz Al Hazza,Mechanical Engineering Department,Mon-Tue-Wed,12:00 pm – 1:15 pm,G – 346
-
-Spring 2026,School of Engineering and Computing,Prof. Muataz Al Hazza,Mechanical Engineering Department,Tue,1:30 pm – 2:45 pm,G – 346
-
-Spring 2026,School of Engineering and Computing,Prof. Muataz Al Hazza,Mechanical Engineering Department,Sat,12:00 pm – 2:30 pm,G – 346
-
-Spring 2026,School of Engineering and Computing,Dr. Basem Yousef,Mechanical Engineering Department,Mon & Tue,1:30 pm – 2:45 pm,G – 307
-
-Spring 2026,School of Engineering and Computing,Dr. Basem Yousef,Mechanical Engineering Department,Thu,12:00 pm – 1:15 pm,G – 307
-
-Spring 2026,School of Engineering and Computing,Dr. Mohammed Alnahhal,Mechanical Engineering Department,Mon & Wed,1:30 pm – 2:45 pm,G – 308
-
-Spring 2026,School of Engineering and Computing,Dr. Mohammed Alnahhal,Mechanical Engineering Department,Tue,12:00 pm – 1:15 pm,G – 308
-
-Spring 2026,School of Engineering and Computing,Dr. Mohamad Kharseh,Mechanical Engineering Department,Mon-Tue-Wed-Thu,9:00 am – 10:00 am,G - 342
-
-Spring 2026,School of Engineering and Computing,Dr. Mohamad Kharseh,Mechanical Engineering Department,Sat,"9:00 am – 10:00 am, 5:30 pm – 6:30 pm",G - 342
-
-Spring 2026,School of Engineering and Computing,Eng. Mohamad Zaid,Mechanical Engineering Department,Mon-Wed-Thu,12:00 pm – 1:15 pm,G - 337
-
-Spring 2026,School of Engineering and Computing,Eng. Mohamad Zaid,Mechanical Engineering Department,Tue & Thu,1:30 pm – 2:45 pm,G - 337
-
-Spring 2026,School of Arts & Sciences,Dr. Serkan Şavk,Department of Humanities and Social Sciences,Tue - Thu,1:00 pm – 2:00 pm, K 
-
-Spring 2026,School of Arts & Sciences,Dr. Hanan Elsayed,Department of Humanities and Social Sciences,Mon–Wed,12:00 am – 1:30 pm,K 322
-
-Spring 2026,School of Arts & Sciences,Dr. Hanan Elsayed,Department of Humanities and Social Sciences,Tue - Thu,12:00 am – 2:00 pm,K 322
-
-Spring 2026,School of Arts & Sciences,Dr. Shadi Al-Shidrawi,Department of Humanities and Social Sciences,Wednesday,1.00-2.00 p.m., K 328
-
-Spring 2026,School of Arts & Sciences,Dr. Shadi Al-Shidrawi,Department of Humanities and Social Sciences,Thursday,12.00-1.00 p.m, K 328
-
-Spring 2026,School of Arts & Sciences,Dr. Shadi Al-Shidrawi,Department of Humanities and Social Sciences,Monday and Wednesday Office Hours in AWC Bldg. D as Writing Center Community Service.,, K 328
-
-Spring 2026,School of Arts & Sciences,Dr. Khaleda Al Mansoori,Department of Humanities and Social Sciences,Mon,2.00 PM -4.00 PM,K 325
-
-Spring 2026,School of Arts & Sciences,Dr. Khaleda Al Mansoori,Department of Humanities and Social Sciences,Wed,2.00 PM 3.00 PM,K 325
-
-Spring 2026,School of Arts & Sciences,Dr. Khaleda Al Mansoori,Department of Humanities and Social Sciences,Tue,2.00 PM -4.00 PM,K 325
-
-Spring 2026,School of Arts & Sciences,Dr. Khaleda Al Mansoori,Department of Humanities and Social Sciences,Thu,2:30 AM -4:00 PM,K 325
-
-Spring 2026,School of Arts & Sciences,Ms. Liane Jeschull,Department of Humanities and Social Sciences,Mon & Wed,12:00 pm - 1:30 pm,K 338
-
-Spring 2026,School of Arts & Sciences,Ms. Liane Jeschull,Department of Humanities and Social Sciences,Tue & Thu*,12:00 pm - 1:30 pm,K 338
-
-Spring 2026,School of Arts & Sciences,Dr. Suzana Dzamtoska Zdravkovska,Department of Humanities and Social Sciences,Mon – Wed,4:30 – 5:30 pm,K 330
-
-Spring 2026,School of Arts & Sciences,Dr. Suzana Dzamtoska Zdravkovska,Department of Humanities and Social Sciences,Tue,3:00 – 5:00 pm,K 330
-
-Spring 2026,School of Arts & Sciences,Ms. Kate Moore,Department of Humanities and Social Sciences,Mon,1:15 pm – 2:15 pm,K 337
-
-Spring 2026,School of Arts & Sciences,Ms. Kate Moore,Department of Humanities and Social Sciences,Wed,1:15 pm – 3:15 pm,K 337
-
-Spring 2026,School of Arts & Sciences,Ms. Kate Moore,Department of Humanities and Social Sciences,Thu,1:00 pm – 3:00 pm,K 337
-
-Spring 2026,School of Arts & Sciences,Dr. Sabir Haque,Department of Humanities and Social Sciences,Mon & Wed,12:00 pm – 2 pm,K 320
-
-Spring 2026,School of Arts & Sciences,Ms. Norma Daniela Godoy,Department of Humanities and Social Sciences,Tuesday/ Thursday,1:00 to 1:30 pm.,K 327
-
-Spring 2026,School of Arts & Sciences,Ms. Norma Daniela Godoy,Department of Humanities and Social Sciences,Tuesday/Thursday,4 :15 to 5:15 pm.,K 327
-
-Spring 2026,School of Arts & Sciences,Dr. Walid Awad El Jammal,Department of Humanities and Social Sciences,Tue – Wed-Thu,3:30 pm – 6:00 pm,K 335
-
-Spring 2026,School of Arts & Sciences,Dr. Kutbettin Kilic,Department of Humanities and Social Sciences,Mon – Wed,1:30 pm – 2:30 pm,K 341
-
-Spring 2026,School of Arts & Sciences,Dr. Kutbettin Kilic,Department of Humanities and Social Sciences,Tues - Thur,10:00 am – 11:00 am,K 341
-
-Spring 2026,School of Arts & Sciences,Dr. Philipp Dorstewitz,Department of Humanities and Social Sciences,Mon – Wed,11:00 am – 12:00 pm,K 316
-
-Spring 2026,School of Arts & Sciences,Dr. Philipp Dorstewitz,Department of Humanities and Social Sciences,Tue-Thu,12:00 am – 1:30 pm,K 316
-
-Spring 2026,School of Arts & Sciences,Dr. Dina Antar,Department of Humanities and Social Sciences,Monday,12:00pm-1:30pm,K 331
-
-Spring 2026,School of Arts & Sciences,Dr. Dina Antar,Department of Humanities and Social Sciences,Tuesday,04:15pm-05:15pm,K 331
-
-Spring 2026,School of Arts & Sciences,Dr. Dina Antar,Department of Humanities and Social Sciences,Wednesday,12:00pm-1:30pm,K 331
-
-Spring 2026,School of Arts & Sciences,Ms. Gulbahor Amirova,Department of Humanities and Social Sciences,Mon – Wed,12:00 pm – 2:00 pm,K 323
-
-Spring 2026,School of Arts & Sciences,Dr. Paul Narh Doku,Department of Humanities and Social Sciences,Mondays,1:30pm – 2:30pm,K 336
-
-Spring 2026,School of Arts & Sciences,Dr. Paul Narh Doku,Department of Humanities and Social Sciences,Tuesdays/Thursdays,11:00am – 1:15pm,K 336
-
-Spring 2026,School of Arts & Sciences,Dr. Paul Narh Doku,Department of Humanities and Social Sciences,Saturday,11:30 – 2:00pm,K 336
-
-Spring 2026,School of Arts & Sciences,Kimberlin K. Sturgis,Department of Humanities and Social Sciences,Friday,5:00 pm – 6:00 pm,K 308
-
-Spring 2026,School of Arts & Sciences,Kimberlin K. Sturgis,Department of Humanities and Social Sciences,Saturday,8:00 am – 10:00 am,K 308
-
-Spring 2026,School of Arts & Sciences,Dr. Alexandria Proff,Department of Humanities and Social Sciences,Sundays,9:00 am – 11:00 am,K 313
-
-Spring 2026,School of Arts & Sciences,Dr. Rawad Hodeify,Department of Biotechnology,Mon-Tues-Wed,1:30 pm – 2:30 pm,K 310
-
-Spring 2026,School of Arts & Sciences,Dr. Rawad Hodeify,Department of Biotechnology,Tues-Thu,10:30 am – 11:30 am,K 310
-
-Spring 2026,School of Arts & Sciences,Prof. Shagufta Waseem,Department of Biotechnology,Mon – Wed,2:00 pm – 4:00 pm,K 321
-
-Spring 2026,School of Arts & Sciences,Prof. Shagufta Waseem,Department of Biotechnology,Mon – Wed,3:00 pm -4:00 pm,K 321
-
-Spring 2026,School of Arts & Sciences,Dr. Rinku Mariam Thomas,Department of Biotechnology,Mon - Wed,10:30 am – 1:15 pm,K 329
-
-Spring 2026,School of Arts & Sciences,Dr. Rinku Mariam Thomas,Department of Biotechnology,Tue - Thu,11:30 am – 1:30 pm,K 329
-
-Spring 2026,School of Arts & Sciences,Dr. Cijo Vazhappilly,Department of Biotechnology,Mon - Wed,11:00 am – 12:00 pm,K 317
-
-Spring 2026,School of Arts & Sciences,Dr. Cijo Vazhappilly,Department of Biotechnology,Tue - Thu,11:00 am – 12:00 pm,K 317
-
-Spring 2026,School of Arts & Sciences,Mr. John Marton,Department of Biotechnology,Mon - Tue - Wed - Thu,8:00 am – 9:00 am,K 339
-
-Spring 2026,School of Arts & Sciences,Prof. Irshad Ahmad,Department of Biotechnology,Mon,10:30 am – 11:30 am,K 315
-
-Spring 2026,School of Arts & Sciences,Prof. Irshad Ahmad,Department of Biotechnology,Tue,11:00 am – 12:00 pm,K 315
-
-Spring 2026,School of Arts & Sciences,Prof. Irshad Ahmad,Department of Biotechnology,Wed,11:00 am – 12:00 pm,K 315
-
-Spring 2026,School of Arts & Sciences,Prof. Irshad Ahmad,Department of Biotechnology,Thu,10:30 am – 11:30 am,K 315
-
-Spring 2026,School of Arts & Sciences,Dr. Asha Caroline Cyril,Department of Biotechnology,Mon,10:30 am- 11:30 am,K 333
-
-Spring 2026,School of Arts & Sciences,Dr. Asha Caroline Cyril,Department of Biotechnology,Tue,11 :00 am -12:00 pm; 1:00 pm- 2:00 pm,K 333
-
-Spring 2026,School of Arts & Sciences,Dr. Asha Caroline Cyril,Department of Biotechnology,Wed,1O:30 am– 11:30 am; 2:00 pm-3:00pm,K 333
-
-Spring 2026,School of Arts & Sciences,Dr. Saleha Abdullah Nasser Al Mardeai,Department of Biotechnology,Tue – Thu,10:30 am – 11:45 am,H 325
-
-Spring 2026,School of Arts & Sciences,Dr. Saleha Abdullah Nasser Al Mardeai,Department of Biotechnology,Mon - Wed,4:30 pm – 5:45 pm,H 325
-
-Spring 2026,School of Arts & Sciences,Dr. Saleha Abdullah Nasser Al Mardeai,Department of Biotechnology,Tue – Thu,3:00 pm – 5:30 pm,H 325
-
-Spring 2026,School of Arts & Sciences,Mr. Imad Shadid,Department of Biotechnology,Tue - Thu,2:00 - 3:00 pm,K 306
-
-Spring 2026,School of Arts & Sciences,Dr. Wasan Al Taie,Department of Biotechnology,Mon,12:00 pm – 1:00 pm,K 308
-
-Spring 2026,School of Arts & Sciences,Dr. Wasan Al Taie,Department of Biotechnology,Tue,1:30 pm – 2:30 pm,K 308
-
-Spring 2026,School of Arts & Sciences,Dr. Wasan Al Taie,Department of Biotechnology,Wed,12:00 pm – 1:00 pm,K 308
-
-Spring 2026,School of Arts & Sciences,Dr. Wasan Al Taie,Department of Biotechnology,Thu,:30 am – 2:30 pm,K 308
-
-Spring 2026,School of Arts & Sciences,Dr. Dr. Busher Idris,Department of Biotechnology,Mon – Wed,1:30 pm – 2:30 pm,K 314
-
-Spring 2026,School of Arts & Sciences,Dr. Dr. Busher Idris,Department of Biotechnology,Tue.,10:30 am – 11:30 am,K 314
-
-Spring 2026,School of Arts & Sciences,Dr. Dr. Busher Idris,Department of Biotechnology,Thu,10:30 am – 11:30 am,K 314
-
-Spring 2026,School of Arts & Sciences,Prof. Hamid Berriche,Department of Mathematics and Physics,Monday and Tuesday,9:00 – 10:00 am,K 311
-
-Spring 2026,School of Arts & Sciences,Prof. Hamid Berriche,Department of Mathematics and Physics,Wednesday,12:00-1:00 pm,K 311
-
-Spring 2026,School of Arts & Sciences,Saoussene Osman,Department of Mathematics and Physics,Tue - Thu,10:30 am – 12:30 pm,K 332
-
-Spring 2026,School of Arts & Sciences,Dr. Muhammad Shafiq Ahmed,Department of Mathematics and Physics,Tue,9:00-10:30 a.m & 3:00 - 4:00 p.m.,K 324
-
-Spring 2026,School of Arts & Sciences,Dr. Muhammad Shafiq Ahmed,Department of Mathematics and Physics,Wed,2:30 - 3:30 p.m.,K 324
-
-Spring 2026,School of Arts & Sciences,Dr. Muhammad Shafiq Ahmed,Department of Mathematics and Physics,Thu,9:00-10:30 a.m,K 324
-
-Spring 2026,School of Arts & Sciences,Dr. Mohamed AbuDakka,Department of Mathematics and Physics,Tue -,2:00 pm – 3:00 pm,K - Physics Lab
-
-Spring 2026,School of Arts & Sciences,Dr. Mohamed AbuDakka,Department of Mathematics and Physics,Wed,2:00 pm – 3:00 pm,K - Physics Lab
-
-Spring 2026,School of Arts & Sciences,Dr. Mohamed AbuDakka,Department of Mathematics and Physics,Mon,11:00 am – 12:00 pm,K - Physics Lab
-
-Spring 2026,School of Arts & Sciences,Dr. Mohamed AbuDakka,Department of Mathematics and Physics,Thu,12:30pm-1:30pm,K - Physics Lab
-
-Spring 2026,School of Arts & Sciences,Prof. Suleyman Ulusoy,Department of Mathematics and Physics,Mon – Wed,12:00 pm – 1:00 pm,K 319
-
-Spring 2026,School of Arts & Sciences,Prof. Suleyman Ulusoy,Department of Mathematics and Physics,Tue-Thu,1:30 pm – 2:30 pm,K 319
-
-Spring 2026,School of Arts & Sciences,Dr. Bong-Sik Kim,Department of Mathematics and Physics,Mon and Wed,10:30 am – 12:30 pm,K 327
-
-Spring 2026,School of Arts & Sciences,Dr. Muhammad Arshad,Department of Mathematics and Physics,Mon,11:00 AM to 12:00 PM,K 306
-
-Spring 2026,School of Arts & Sciences,Dr. Muhammad Arshad,Department of Mathematics and Physics,Tue,11:40 AM to 12:40 PM,K 306
-
-Spring 2026,School of Arts & Sciences,Dr. Muhammad Arshad,Department of Mathematics and Physics,Wed,11:00 AM to 12:00 PM,K 306
-
-Spring 2026,School of Arts & Sciences,Dr. Muhammad Arshad,Department of Mathematics and Physics,Thu,11:40 AM to 12:40 PM,K 306
-
-Spring 2026,School of Arts & Sciences,Dr. Ayman Karar,Department of Mathematics and Physics,Tues,12:00 pm – 01:30 pm,K 306
-
-Spring 2026,School of Arts & Sciences,Dr. Ayman Karar,Department of Mathematics and Physics,Thu,3:00 pm – 4:00 pm,K 306
-
-Spring 2026,School of Arts & Sciences,Dr. Ayman Karar,Department of Mathematics and Physics,Wed,10:30 am – 12:00 pm,K 306
-
-Spring 2026,School of Arts & Sciences,Mr. Ibrahim Awadallah,Department of Mathematics and Physics,Mon – Tue -Wed- Thu,1:30 pm – 3:00 pm,K 334
-
+Fall 2026,School of Business,Prof. Tahseen Arshi,,Mon-Tue-Wed-Thu,11:00 AM – 3:00 PM or by appointment,H-301 B
+Fall 2026,School of Business,Dr. Abdelfatah Arman,,Mon-Wed,9:00 AM – 10:30 AM,H-301 D
+Fall 2026,School of Business,Dr. Abdelfatah Arman,,Mon-Wed,1:30 PM – 2:30 PM,H-301 D
+Fall 2026,School of Business,Dr. Abdelfatah Arman,,Tue-Thu,10:00 AM – 1:30 PM,H-301 D
+Fall 2026,School of Business,Dr. Abdelfatah Arman,,Fri,10:00 AM – 12:00 PM,H-301 D
+Fall 2026,School of Business,Dr. Khalid Khan,Management Department,Mon-Wed,10:15 AM – 12:15 PM,H-323
+Fall 2026,School of Business,Dr. Khalid Khan,Management Department,Mon-Wed,2:00 PM – 3:00 PM,H-323
+Fall 2026,School of Business,Dr. Khalid Khan,Management Department,Tue-Thu,11:45 AM – 12:45 PM,H-323
+Fall 2026,School of Business,Dr. Khalid Khan,Management Department,Tue-Thu,2:00 PM – 3:00 PM,H-323
+Fall 2026,School of Business,Dr. Khalid Khan,Management Department,Sun,1:00 PM – 2:00 PM,H-323
+Fall 2026,School of Business,Dr. Michel Zaitouni,Management Department,Mon-Tue-Wed-Thu,11:00 AM – 12:00 PM,H-324
+Fall 2026,School of Business,Dr. Petya Koleva,Management Department,Thu,10:00 AM – 11:00 AM,H-301 E
+Fall 2026,School of Business,Dr. Petya Koleva,Management Department,Sat,10:00 AM – 12:00 PM,H-301 E
+Fall 2026,School of Business,Dr. Tariq Bhatti,Management Department,Tue-Thu,1:00 PM- 3:00 PM,H-318
+Fall 2026,School of Business,Dr. Tariq Bhatti,Management Department,Sun,1:30 PM – 2:30 PM,H-318
+Fall 2026,School of Business,Dr. Pranav Kumar,Management Department,Mon-Wed,2:30 PM – 3:00 PM,H-314
+Fall 2026,School of Business,Dr. Pranav Kumar,Management Department,Tue-Thu,12:00 PM – 1:30 PM,H-314
+Fall 2026,School of Business,Dr. Jalal Hanaysha,Management Department,Mon-Wed,10:00 AM – 12:00 PM,H-320
+Fall 2026,School of Business,Dr. Jalal Hanaysha,Management Department,Tue-Thu,9:00 AM – 10:00 AM,H-320
+Fall 2026,School of Business,Dr. Ayesha Ubaid,Management Department,Tue-Thu,12:00 PM – 1:00 PM,H-319
+Fall 2026,School of Business,Dr. Ayesha Ubaid,Management Department,Wed,2:00 PM – 3:00 PM,H-319
+Fall 2026,School of Business,Dr. Ayesha Ubaid,Management Department,Sat,2:00 PM – 3:00 PM,H-319
+Fall 2026,School of Business,Dr. Anurag Guglani,Management Department,Tue-Thu,11:45 AM – 12:45 PM,H-330
+Fall 2026,School of Business,Dr. Kris Wagner,Management Department,Mon-Wed,12:00 PM – 2:00 PM,H-332
+Fall 2026,School of Business,Dr. Abdullah Ismail,Management Department,Mon-Wed,11:30 PM – 12:30 PM,H-327
+Fall 2026,School of Business,Dr. Abdullah Ismail,Management Department,Sat,2:00 PM – 3:00 PM,H-327
+Fall 2026,School of Business,Dr. Mohammed Azzam,Accounting and Finance Department,Mon-Wed,11:00 AM – 12:00 PM,H-315
+Fall 2026,School of Business,Dr. Mohammed Azzam,Accounting and Finance Department,Tue-Thu,11:30 AM – 1:30 PM,H-315
+Fall 2026,School of Business,Dr. Hussain Muhammed,Accounting and Finance Department,Tue-Thu,10:00 AM – 12:00 PM,H-322
+Fall 2026,School of Business,Dr. Hussain Muhammed,Accounting and Finance Department,Sat,11:30 AM – 12:30 PM,H-322
+Fall 2026,School of Business,Dr. Hussain Muhammed,Accounting and Finance Department,Sun,1:30 PM – 2:30 PM,H-322
+Fall 2026,School of Business,Dr. Ibrahim Khatatbeh,Accounting and Finance Department,Mon-Wed,11:30 AM – 1:30 PM,H-316
+Fall 2026,School of Business,Dr. Ibrahim Khatatbeh,Accounting and Finance Department,Sat,12:00 PM – 2:00 PM,H-316
+Fall 2026,School of Business,Dr. Farah Alasaf,Accounting and Finance Department,Tue,12:30 PM – 2:30 PM,H-317
+Fall 2026,School of Business,Dr. Farah Alasaf,Accounting and Finance Department,Wed,3:00 PM – 5:00 PM,H-317
+Fall 2026,School of Business,Dr. Mukdad Ibrahim,Accounting and Finance Department,Mon-Wed,12:00 PM – 1:00 PM,H-331
+Fall 2026,School of Business,Dr. Riya Bhattacharya,Accounting and Finance Department,Mon-Wed,1:00 PM – 3:00 PM,H-327
+Fall 2026,School of Engineering and Computing,Dr. Archer Heindric,Architecture & Civil Engineering Department,Mon-Tue-Wed-Thu-Fri,12:00 pm – 1:15 pm,G - 348
+Fall 2026,School of Engineering and Computing,Prof. Roz-Ud-Din Nassar,Architecture & Civil Engineering Department,Tue,10:30 am – 12:00 pm,G - 310
+Fall 2026,School of Engineering and Computing,Prof. Roz-Ud-Din Nassar,Architecture & Civil Engineering Department,Thu,"10:30 am – 12:00 pm, 1:30 pm – 2:30 pm",G - 310
+Fall 2026,School of Engineering and Computing,Dr. Fayez Moutassem,Architecture & Civil Engineering Department,Mon & Wed,12:00 pm – 2:30 pm,G – 353
+Fall 2026,School of Engineering and Computing,Dr. Nael Alsaleh,Architecture & Civil Engineering Department,Mon & Wed,11:00 am – 1:00 pm,G – 304
+Fall 2026,School of Engineering and Computing,Dr. Liudmila Cazacova,Architecture & Civil Engineering Department,Tue & Thu,10:20 am – 12:20 pm,G – 351
+Fall 2026,School of Engineering and Computing,Dr. Chen-Yu Chiu,Architecture & Civil Engineering Department,Mon-Tue-Wed-Thu,11:00 am – 12:00 pm,G – 349
+Fall 2026,School of Engineering and Computing,Eng. Abeer Abu Raed,Architecture & Civil Engineering Department,Tue & Thu,11:30 am – 1:00 pm,G – 350
+Fall 2026,School of Engineering and Computing,Dr. Lubna Alawneh,Architecture & Civil Engineering Department,Mon & Wed,12:00 pm – 1:30 pm,G - 352
+Fall 2026,School of Engineering and Computing,Dr. Lubna Alawneh,Architecture & Civil Engineering Department,Tue & Thu,8:00 am – 9:00 am,G - 352
+Fall 2026,School of Engineering and Computing,Dr. Ghaith Tish,Architecture & Civil Engineering Department,Mon-Wed-Fri,9:00 am – 10:00 am,G - 313
+Fall 2026,School of Engineering and Computing,Ms. Inshirah Shublaq,Architecture & Civil Engineering Department,Mon & Wed,11:05 am – 1:05 pm,G - 309
+Fall 2026,School of Engineering and Computing,Ms. Inshirah Shublaq,Architecture & Civil Engineering Department,Tue,11:00 am – 12:00 pm,G - 309
+Fall 2026,School of Engineering and Computing,Dr. Uday Kumar,Chemical & Petroleum Engineering Department,Mon-Tue-Wed-Thu,10:30 am – 11:30 am,G – 321
+Fall 2026,School of Engineering and Computing,Dr. Uday Kumar,Chemical & Petroleum Engineering Department,Mon-Tue-Wed-Thu,1:30 pm – 3:00 pm,G – 321
+Fall 2026,School of Engineering and Computing,Dr. Sara Faiz,Chemical & Petroleum Engineering Department,Mon & Wed,12:00 pm – 1:00 pm,G – 323
+Fall 2026,School of Engineering and Computing,Dr. Sara Faiz,Chemical & Petroleum Engineering Department,Tue,"10:30 am – 11:30 am, 1:30 pm – 2:30 pm",G – 323
+Fall 2026,School of Engineering and Computing,Dr. Sara Faiz,Chemical & Petroleum Engineering Department,Thu,"10:30 am – 11:30 am, 3:00 pm – 4:00 pm",G – 323
+Fall 2026,School of Engineering and Computing,Dr. Nageswara Lakkimsetty,Chemical & Petroleum Engineering Department,Mon & Wed,"10:30 am – 11:45 am, 2:00 pm – 4:00 pm",G – 312
+Fall 2026,School of Engineering and Computing,Dr. Nageswara Lakkimsetty,Chemical & Petroleum Engineering Department,Tue & Thu,2:30 pm – 3:30 pm,G – 312
+Fall 2026,School of Engineering and Computing,Dr. Abo Taleb Al-Hameedi,Chemical & Petroleum Engineering Department,Mon & Wed,1:30 pm – 2:45 pm,G – 303
+Fall 2026,School of Engineering and Computing,Dr. Abo Taleb Al-Hameedi,Chemical & Petroleum Engineering Department,Tue & Thu,3:00 pm – 4:15 pm,G – 303
+Fall 2026,School of Engineering and Computing,Dr. Ali Alnoman,Computer Science & Engineering Department,Mon & Thu,12:00 pm – 3:00 pm,G – 320
+Fall 2026,School of Engineering and Computing,Dr. Khouloud Salameh,Computer Science & Engineering Department,Mon & Wed,9:00 am – 11:30 am,G – 326B
+Fall 2026,School of Engineering and Computing,Prof. Mohammed Awad,Computer Science & Engineering Department,Mon & Wed,9:00 am – 10:30 am,K – 347
+Fall 2026,School of Engineering and Computing,Prof. Mohammed Omari,Computer Science & Engineering Department,Mon & Wed,9:30 am – 10:30 am,G – 343
+Fall 2026,School of Engineering and Computing,Prof. Mohammed Omari,Computer Science & Engineering Department,Mon & Wed,11:45 am – 12:45 pm,G – 343
+Fall 2026,School of Engineering and Computing,Prof. Arfan Ghani,Computer Science & Engineering Department,Mon & Wed,9:30 am – 10:30 am,G – 314
+Fall 2026,School of Engineering and Computing,Prof. Arfan Ghani,Computer Science & Engineering Department,Tue,2:00 pm – 3:00 pm,G – 314
+Fall 2026,School of Engineering and Computing,Dr. Khaled Omar Balawafi,Computer Science & Engineering Department,Mon & Wed,2:00 pm – 4:00 pm,G – 316
+Fall 2026,School of Engineering and Computing,Dr. Khaled Omar Balawafi,Computer Science & Engineering Department,Tue & Thu,3:00 pm – 4:00 pm,G – 316
+Fall 2026,School of Engineering and Computing,Dr. Lobna Nassar,Computer Science & Engineering Department,Mon,5:45 pm – 6:40 pm,G – 347
+Fall 2026,School of Engineering and Computing,Dr. Lobna Nassar,Computer Science & Engineering Department,Tue,"2:00 pm – 3:00 pm, 5:30 pm – 6:45 pm",G – 347
+Fall 2026,School of Engineering and Computing,Eng. Umar Adeel,Computer Science & Engineering Department,Mon,11:30 am – 12:00 pm,G – 335
+Fall 2026,School of Engineering and Computing,Eng. Umar Adeel,Computer Science & Engineering Department,Tue & Thu,9:00 am – 10:30 am,G – 335
+Fall 2026,School of Engineering and Computing,Eng. Umar Adeel,Computer Science & Engineering Department,Fri,"1:30 pm – 2:00 pm, 4:30 pm – 5:00 pm",G – 335
+Fall 2026,School of Engineering and Computing,Eng. Abdul Rahman Al Muaitah,Computer Science & Engineering Department,Mon-Tue-Thu,2:00 pm – 3:00 pm,AI Lab – Bldg. G Ground floor
+Fall 2026,School of Engineering and Computing,Dr. Zubaidah Al Hazza,Computer Science & Engineering Department,Tue & Thu,"9:00 am – 10:00 am, 12:00 pm – 1:00 pm",G - 338
+Fall 2026,School of Engineering and Computing,Dr. Ali Al Ataby,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon-Tue-Wed-Thu,10:30 am – 1:15 pm,G – 322
+Fall 2026,School of Engineering and Computing,Dr. Ali Al Ataby,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon-Tue-Wed-Thu,3:00 pm – 4:15 pm,G – 322
+Fall 2026,School of Engineering and Computing,Prof. Ahmad Sakhrieh,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon,1:30 pm – 2:45 pm,G – 318
+Fall 2026,School of Engineering and Computing,Prof. Ahmad Sakhrieh,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue & Sat,10:30 am – 11:45 am,G – 318
+Fall 2026,School of Engineering and Computing,Dr. Khaled Hossin,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon-Tue-Wed,10:30 am – 11:45 am,G – 339
+Fall 2026,School of Engineering and Computing,Dr. Khaled Hossin,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon,1:30 pm – 2:45 pm,G – 339
+Fall 2026,School of Engineering and Computing,Prof. Muataz Al Hazza,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon-Tue-Wed,10:30 am – 12:00 pm,G – 346
+Fall 2026,School of Engineering and Computing,Prof. Muataz Al Hazza,"Mechanical, Electrical & Intelligent Systems Engineering Department",Sat,"8:00 am – 9:00 am, 2:30 pm - 3:30 pm",G – 346
+Fall 2026,School of Engineering and Computing,Dr. Maissa Farhat,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon & Wed,1:15 pm – 2:15 pm,G – 341
+Fall 2026,School of Engineering and Computing,Dr. Maissa Farhat,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue & Thu,9:00 am – 10:00 am,G – 341
+Fall 2026,School of Engineering and Computing,Dr. Basem Yousef,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon,11:00 am – 12:00 pm,G – 307
+Fall 2026,School of Engineering and Computing,Dr. Basem Yousef,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue & Thu,1:30 pm – 2:30 pm,G – 307
+Fall 2026,School of Engineering and Computing,Dr. Beza Getu,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon & Wed,10:30 am – 11:45 am,G – 334
+Fall 2026,School of Engineering and Computing,Dr. Beza Getu,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue & Thu,1:30 pm – 2:45 pm,G – 334
+Fall 2026,School of Engineering and Computing,Dr. Mohammed Alnahhal,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon & Wed,1:30 pm – 2:45 pm,G – 308
+Fall 2026,School of Engineering and Computing,Dr. Mohammed Alnahhal,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue,11:30 am – 1:00 pm,G – 308
+Fall 2026,School of Engineering and Computing,Dr. Mohammed Alnahhal,"Mechanical, Electrical & Intelligent Systems Engineering Department",Sat,11:30 am – 12:00 pm,G – 308
+Fall 2026,School of Engineering and Computing,Dr. Mohamad Kharseh,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon & Wed,11:00 am – 12:00 pm,G - 342
+Fall 2026,School of Engineering and Computing,Dr. Mohamad Kharseh,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon & Fri,3:00 pm – 4:00 pm,G - 342
+Fall 2026,School of Engineering and Computing,Dr. Mohamad Kharseh,"Mechanical, Electrical & Intelligent Systems Engineering Department",Sat,2:00 pm – 4:00 pm,G - 342
+Fall 2026,School of Engineering and Computing,Dr. Hussain Attia,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon & Wed,1:00 pm – 2:30 pm,G - 306
+Fall 2026,School of Engineering and Computing,Dr. Rayane Tchantchane,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue,10:00 am – 12:00 pm,G - 336
+Fall 2026,School of Engineering and Computing,Dr. Rayane Tchantchane,"Mechanical, Electrical & Intelligent Systems Engineering Department",Wed,1:30 pm – 5:00 pm,G - 336
+Fall 2026,School of Engineering and Computing,Eng. Mohamad Zaid,"Mechanical, Electrical & Intelligent Systems Engineering Department",Mon-Tue-Wed-Thu,12:00 pm – 1:15 pm,G - 337
+Fall 2026,School of Engineering and Computing,Eng. Mohamad Zaid,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue & Thu,1:30 pm – 2:45 pm,G - 337
+Fall 2026,School of Engineering and Computing,Dr. Maram Helmy,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue,3:00 pm – 5:30 pm,G - 344
+Fall 2026,School of Engineering and Computing,Dr. Maram Helmy,"Mechanical, Electrical & Intelligent Systems Engineering Department",Wed,1:30 pm – 3:00 pm,G - 344
 `;
