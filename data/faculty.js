@@ -108,4 +108,87 @@ Fall 2026,School of Engineering and Computing,Eng. Mohamad Zaid,"Mechanical, Ele
 Fall 2026,School of Engineering and Computing,Eng. Mohamad Zaid,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue & Thu,1:30 pm – 2:45 pm,G - 337
 Fall 2026,School of Engineering and Computing,Dr. Maram Helmy,"Mechanical, Electrical & Intelligent Systems Engineering Department",Tue,3:00 pm – 5:30 pm,G - 344
 Fall 2026,School of Engineering and Computing,Dr. Maram Helmy,"Mechanical, Electrical & Intelligent Systems Engineering Department",Wed,1:30 pm – 3:00 pm,G - 344
+Fall 2026,School of Arts & Sciences,Prof. Rachel Matar,,Tue,2:00 pm – 3:00 pm,K-342
+Fall 2026,School of Arts & Sciences,Dr. Kutbettin Kilic,,Mon – Wed,10:00 am – 11:00 am,K – 341
+Fall 2026,School of Arts & Sciences,Dr. Kutbettin Kilic,,Tue - Thu,1:30 pm – 2:30 pm,K – 341
+Fall 2026,School of Arts & Sciences,Dr. Rawad Hodeify,Department of Biotechnology,Mon - Tue,10:30 am – 11:20 am,K – 310
+Fall 2026,School of Arts & Sciences,Dr. Rawad Hodeify,Department of Biotechnology,Mon,1:30 pm – 2:45 pm,K – 310
+Fall 2026,School of Arts & Sciences,Prof. Irshad Ahmad,Department of Biotechnology,Mon - Tue,1:00 pm – 2:00 pm,K – 315
+Fall 2026,School of Arts & Sciences,Prof. Irshad Ahmad,Department of Biotechnology,Wed - Thu,1:00 pm – 2:00 pm,K – 315
+Fall 2026,School of Arts & Sciences,Dr. Cijo Vazhappilly,Department of Biotechnology,Mon - Wed,02:00 pm - 3:00 pm,K – 317
+Fall 2026,School of Arts & Sciences,Dr. Cijo Vazhappilly,Department of Biotechnology,Tue - Thu,02:00 pm - 3:00 pm,K – 317
+Fall 2026,School of Arts & Sciences,Dr. Cijo Vazhappilly,Department of Biotechnology,Fri,10.30 am - 12.30 pm,K – 317
+Fall 2026,School of Arts & Sciences,Prof. Shagufta Waseem,Department of Biotechnology,Mon – Tue - Wed,11:00 am – 12:00,K – 321
+Fall 2026,School of Arts & Sciences,Prof. Shagufta Waseem,Department of Biotechnology,Tue - Student success hour,1:00 pm – 2:00 pm,K – 321
+Fall 2026,School of Arts & Sciences,Prof. Shagufta Waseem,Department of Biotechnology,Thu,1:00 pm – 2:00 pm,K – 321
+Fall 2026,School of Arts & Sciences,Dr. Rinku Thomas,Department of Biotechnology,Mon,9:00 am – 11:30 am,K – 329
+Fall 2026,School of Arts & Sciences,Dr. Rinku Thomas,Department of Biotechnology,Tue,10:30am – 12 noon,K – 329
+Fall 2026,School of Arts & Sciences,Dr. Rinku Thomas,Department of Biotechnology,Thu,10:30am – 12 noon,K – 329
+Fall 2026,School of Arts & Sciences,Dr. Rinku Thomas,Department of Biotechnology,Thu,1:30pm – 4:00pm,K – 329
+Fall 2026,School of Arts & Sciences,Dr. Busher Idris,Department of Biotechnology,Tue,11:00 am – 12:00 pm,K – 314
+Fall 2026,School of Arts & Sciences,Dr. Busher Idris,Department of Biotechnology,Tue,12:00 pm – 01:00 pm,K – 314
+Fall 2026,School of Arts & Sciences,Dr. Busher Idris,Department of Biotechnology,Tue,02:00 pm – 03:00 pm,K – 314
+Fall 2026,School of Arts & Sciences,Dr. Busher Idris,Department of Biotechnology,Tue,03:00 pm – 04:00 pm,K – 314
+Fall 2026,School of Arts & Sciences,Dr. Busher Idris,Department of Biotechnology,Thu,11:30 am – 12:30 pm,K – 314
+Fall 2026,School of Arts & Sciences,Dr. Asha Cyril,Department of Biotechnology,Tue,11:00 AM – 12:00 PM,K – 333
+Fall 2026,School of Arts & Sciences,Dr. Asha Cyril,Department of Biotechnology,Wed,1:00 PM- 4:00 PM,K – 333
+Fall 2026,School of Arts & Sciences,Dr. Asha Cyril,Department of Biotechnology,Thu,11:00 AM – 12:00PM,K – 333
+Fall 2026,School of Arts & Sciences,Mr. John Marton,Department of Biotechnology,Mon - Tue,08:00 am – 09:00 am,K – 339
+Fall 2026,School of Arts & Sciences,Mr. John Marton,Department of Biotechnology,Wed – Thu,08:00 am – 09:00 am,K – 339
+Fall 2026,School of Arts & Sciences,Dr. Saleha Al Mardeai,Department of Biotechnology,Tue - Thu,3:00 pm – 4:00 pm,K – 338
+Fall 2026,School of Arts & Sciences,Dr. Wasan Mahmood,Department of Biotechnology,Mon,12:00-1:00 PM,K – 308
+Fall 2026,School of Arts & Sciences,Dr. Wasan Mahmood,Department of Biotechnology,Mon,1:00-2:00 PM,K – 308
+Fall 2026,School of Arts & Sciences,Dr. Wasan Mahmood,Department of Biotechnology,Tue,1:00-2:00 PM,K – 308
+Fall 2026,School of Arts & Sciences,Dr. Wasan Mahmood,Department of Biotechnology,Tue,2:00-3:00 PM,K – 308
+Fall 2026,School of Arts & Sciences,Dr. Muhammad Arshad,Department of Biotechnology,Mon,11:00 AM – 2:00 PM,K – 326
+Fall 2026,School of Arts & Sciences,Dr. Muhammad Arshad,Department of Biotechnology,Thu,9:30 AM – 10:30 AM,K – 326
+Fall 2026,School of Arts & Sciences,Dr. Serkan Şavk,Department of Humanities & Social Sciences,Mon –Wed,2:00 PM -3:30 PM,K – 305
+Fall 2026,School of Arts & Sciences,Dr. Sabir Haque,Department of Humanities & Social Sciences,Tue,10:30 am - 1:30 pm,K – 320
+Fall 2026,School of Arts & Sciences,Dr. Sabir Haque,Department of Humanities & Social Sciences,Thu,10:30 am - 12:30 pm,K – 320
+Fall 2026,School of Arts & Sciences,Dr. Paul Doku,Department of Humanities & Social Sciences,Mon,1:00pm – 4:00pm,K – 336
+Fall 2026,School of Arts & Sciences,Dr. Paul Doku,Department of Humanities & Social Sciences,Wed,11:00am – 12:30pm,K – 336
+Fall 2026,School of Arts & Sciences,Dr. Lawrence Meda,Department of Humanities & Social Sciences,Mon – Tue,11:00 am – 1pm,K – 306
+Fall 2026,School of Arts & Sciences,Dr. Lawrence Meda,Department of Humanities & Social Sciences,Saturday,5:30 pm – 7:30 pm,K – 306
+Fall 2026,School of Arts & Sciences,Dr. Irmawan Rahyadi,Department of Humanities & Social Sciences,Tue,1:00 pm – 3:00 pm,K – 335
+Fall 2026,School of Arts & Sciences,Dr. Irmawan Rahyadi,Department of Humanities & Social Sciences,Thu,1:00 pm – 3:00 pm,K – 335
+Fall 2026,School of Arts & Sciences,Dr. Nahla Moussa,Department of Humanities & Social Sciences,Tue–Thu,1:00 pm – 3:00 pm,K – 322
+Fall 2026,School of Arts & Sciences,Dr. Nahla Moussa,Department of Humanities & Social Sciences,Saturday,2:30 pm – 3:30 pm,K – 322
+Fall 2026,School of Arts & Sciences,Dr. Dina Antar,Department of Humanities & Social Sciences,Tue - Thu,3:00 pm – 04:30 pm,K – 331
+Fall 2026,School of Arts & Sciences,Dr. Dina Antar,Department of Humanities & Social Sciences,Mon,12:00 pm – 1:00 pm,K – 331
+Fall 2026,School of Arts & Sciences,Dr. Shadi Al Shidrawi,Department of Humanities & Social Sciences,Mon – Wed,9:00 am – 10:15 am,K – 328
+Fall 2026,School of Arts & Sciences,Dr. Shadi Al Shidrawi,Department of Humanities & Social Sciences,Tuesday and Thursday (AWC Bldg. D),12.00-1.00 p.m.,K – 328
+Fall 2026,School of Arts & Sciences,Dr. Shadi Al Shidrawi,Department of Humanities & Social Sciences,Fri,9:00 – 1:00 pm,K – 328
+Fall 2026,School of Arts & Sciences,Dr. Neil Howard Johnson,Department of Humanities & Social Sciences,Mon – Wed,9:00 am – 10:00 am,K – 330
+Fall 2026,School of Arts & Sciences,Dr. Neil Howard Johnson,Department of Humanities & Social Sciences,Monday -,2:00 pm - 3:00 pm,K – 330
+Fall 2026,School of Arts & Sciences,Dr. Neil Howard Johnson,Department of Humanities & Social Sciences,Thursday,3:00 pm – 4:00 pm,K – 330
+Fall 2026,School of Arts & Sciences,Dr. Neil Howard Johnson,Department of Humanities & Social Sciences,Friday,9:00 am-10:00am,K – 330
+Fall 2026,School of Arts & Sciences,Ms. Gulbahor Amirova,Department of Humanities & Social Sciences,Mon – Wed,12:00 pm – 1:00 pm,K – 323
+Fall 2026,School of Arts & Sciences,Ms. Gulbahor Amirova,Department of Humanities & Social Sciences,Tue – Thu,9:00 am – 10:30 am,K – 323
+Fall 2026,School of Arts & Sciences,Ms. Kate Moore,Department of Humanities & Social Sciences,Mon,8:00 am – 9:00 am,K – 337
+Fall 2026,School of Arts & Sciences,Ms. Kate Moore,Department of Humanities & Social Sciences,Mon- Tue- Wed,1:15 pm – 2:15 pm,K – 337
+Fall 2026,School of Arts & Sciences,Ms. Kate Moore,Department of Humanities & Social Sciences,Thu,1:15 pm – 3:00 pm,K – 337
+Fall 2026,School of Arts & Sciences,Ms. Norma Daniela Godoy,Department of Humanities & Social Sciences,Mon – Wed,9:30 am – 10:30 am,K – 332
+Fall 2026,School of Arts & Sciences,Ms. Norma Daniela Godoy,Department of Humanities & Social Sciences,Tue - Thu,4:00 pm – 5:00 pm,K – 332
+Fall 2026,School of Arts & Sciences,Dr. Esma Erdogan Kilic,Department of Humanities & Social Sciences,Mon - Wed,9:00 am – 10:00 am,K – 309
+Fall 2026,School of Arts & Sciences,Dr. Esma Erdogan Kilic,Department of Humanities & Social Sciences,Mon - Wed,2:50 pm – 3:50 pm,K – 309
+Fall 2026,School of Arts & Sciences,Mr. Kamel Rabi,Department of Humanities & Social Sciences,Tue,5:45 pm – 6:45 pm,K – 326
+Fall 2026,School of Arts & Sciences,Mr. Kamel Rabi,Department of Humanities & Social Sciences,Thu,5:45 pm – 6:45 pm,K – 326
+Fall 2026,School of Arts & Sciences,Prof. Hamid Berriche,Department of Mathematics & Physics,Tue,9:00 am – 10:00 am,K – 311
+Fall 2026,School of Arts & Sciences,Prof. Hamid Berriche,Department of Mathematics & Physics,Wed,12:00-1:00 pm,K – 311
+Fall 2026,School of Arts & Sciences,Prof. Hamid Berriche,Department of Mathematics & Physics,Thu,9:00 am – 10:00 am,K – 311
+Fall 2026,School of Arts & Sciences,Prof. Suleyman Ulusoy,Department of Mathematics & Physics,Mon - Wed,12:00-1:30 pm,K – 319
+Fall 2026,School of Arts & Sciences,Prof. Suleyman Ulusoy,Department of Mathematics & Physics,Tue - Thu,1:00-1:30 pm,K – 319
+Fall 2026,School of Arts & Sciences,Prof. Katta Ramesh,Department of Mathematics & Physics,Mon - Wed,10:30 am – 12:30 pm,K – 327
+Fall 2026,School of Arts & Sciences,Dr. Muhammad Shafiq Ahmed,Department of Mathematics & Physics,Mon – Tue,9:00 am – 10:15 am,K – 324
+Fall 2026,School of Arts & Sciences,Dr. Muhammad Shafiq Ahmed,Department of Mathematics & Physics,Wed- Thu,9:00 am – 10:15 am,K – 324
+Fall 2026,School of Arts & Sciences,Dr. Abdulkarim Ibrahim,Department of Mathematics & Physics,Mon – Wed,3:00 pm - 4:00pm,K – 325
+Fall 2026,School of Arts & Sciences,Dr. Abdulkarim Ibrahim,Department of Mathematics & Physics,Tue - Thu,10:45 am -11:45 am,K – 325
+Fall 2026,School of Arts & Sciences,Dr. Tariq Al Zoubi,Department of Mathematics & Physics,Mon – Tue,9:15 am – 10:15 am,K – 313
+Fall 2026,School of Arts & Sciences,Dr. Tariq Al Zoubi,Department of Mathematics & Physics,Wed - Thu,9:15 am – 10:15 am,K – 313
+Fall 2026,School of Arts & Sciences,Dr. Mohamad Mawass,Department of Mathematics & Physics,Mon - Wed,9:30 am – 12 pm,K – 316
+Fall 2026,School of Arts & Sciences,Mr. Ibrahim Awadallah,Department of Mathematics & Physics,Tue – Thu,10:30 am – 12:00 pm,K – 334
+Fall 2026,School of Arts & Sciences,Mr. Ibrahim Awadallah,Department of Mathematics & Physics,Mon – Wed,12:00 pm – 1:30 pm,K – 334
+Fall 2026,School of Arts & Sciences,Mr. Emad Shadid,Department of Mathematics & Physics,Tue,2:00 pm – 3:00 pm,K – 326
+Fall 2026,School of Arts & Sciences,Mr. Emad Shadid,Department of Mathematics & Physics,Thu,2:00 pm – 3:00 pm,K – 326
+Fall 2026,School of Arts & Sciences,Ms. Mariam El Sayed,Department of Mathematics & Physics,Mon,1:00 pm – 3:00 pm,K – 308
 `;
